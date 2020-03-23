@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/attainu/Kitab-E-Keeda/issues"
   },
-  "homepage": "https://github.com/attainu/Kitab-E-Keeda#readme"
+  "homepage": "https://github.com/attainu/Kitab-E-Keeda#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }
