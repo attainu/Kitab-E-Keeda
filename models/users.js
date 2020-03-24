@@ -16,6 +16,10 @@ const userSchema = new Schema({
         type : String,
         required : true,
         trim : true
+    },
+    token : {
+        type : String,
+        trim: true
     }
 })
 
