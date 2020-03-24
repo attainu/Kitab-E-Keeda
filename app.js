@@ -8,9 +8,12 @@ const app = express();
 const userApiRoute = require('./routes/apiRoutes/userApiRoute')
 
 
+app.use(express.json())
+
+
 app.get('/', (req, res) => res.send("basic response"))
 
-// global middlewares
+//routese global middlewares
 app.use(userApiRoute);
 
 
