@@ -19,18 +19,18 @@ const userSchema = new Schema({
     }
 })
 
-userSchema.statics.findByEmailAndPassword = async (email, password)=>{
-    try{
-        const user = await User.findOne({ email })
-        if(!user) return res.status(400).send('invalid credentials')
-        const isMatched = await compare(password, user.password)
-        if(!isMatched) return res.status(400).send("wrong password")
-        return user;
-    }catch(err){
-        console.log(err)
+    userSchema.statics.findByEmailAndPassword = async (email, password)=>{
+        try{
+            const user = await User.findOne({ email })
+            if(!user) throw new Error('invalid credentials')
+            const isMatched = await compare(password, user.password)
+            if(!isMatched) throw new Error("incorrect credentials")
+            return user;
+        }catch(err){
+            throw err;
+        }
     }
-}
-
+    
 userSchema.pre('save', async function(next){
     try{
         const user = this
@@ -42,5 +42,5 @@ userSchema.pre('save', async function(next){
     }
 })
 
-const userModel = model('user', userSchema);
-module.exports = userModel
+const User = model('user', userSchema);
+module.exports = User
