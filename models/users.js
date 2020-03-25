@@ -26,9 +26,9 @@ const userSchema = new Schema({
     userSchema.statics.findByEmailAndPassword = async (email, password)=>{
         try{
             const user = await User.findOne({ email })
-            if(!user) throw new Error('invalid credentials')
+            if(!user) throw new Error('invalid credentials 29')
             const isMatched = await compare(password, user.password)
-            if(!isMatched) throw new Error("incorrect credentials")
+            if(!isMatched) throw new Error("incorrect credentials 31")
             return user;
         }catch(err){
             throw err;
@@ -36,13 +36,15 @@ const userSchema = new Schema({
     }
     
 userSchema.pre('save', async function(next){
-    try{
-        const user = this
-        const hashedPassword = await hash(user.password, 10)
-        user.password = hashedPassword 
-        next();   
-    }catch(err){
-        next(err);
+    const user = this
+    if(user.isModified("password")){
+        try{
+            const hashedPassword = await hash(user.password, 10)
+            user.password = hashedPassword 
+            next();   
+        }catch(err){
+            next(err);
+        }    
     }
 })
 
