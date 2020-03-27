@@ -1,15 +1,18 @@
 const User = require('../../models/users');
+const Profile = require('../../models/profile')
 const { sign } = require('jsonwebtoken');
 const { privateKey } = process.env
 const uuid = require('uuid/v4')
+const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
+const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
 
 module.exports = {
     async registerUser(req, res) {
         console.log("inside post register")
         try {
-            res.json(req.body)
             const user = new User({...req.body})
             await user.save()
+            res.json(user)
         } catch (err) {
             console.log(err);
             res.send(err)
@@ -43,6 +46,25 @@ module.exports = {
             return res.json({
                 "message" : "logged out successfully"
             });        
+        }catch(err){
+            console.log(err)
+        }
+    },
+
+    async addProfile(req, res){
+        //upload files in cloudinary
+        try{
+            const imageContent = bufferToString(req.file.originalname, req.file.buffer)
+            const { secure_url } = await cloudinary.uploader.upload(imageContent)
+            const { DOB, address, gender } = req.body
+            const userprofile = new Profile({
+                uploadImage : secure_url,
+                DOB : DOB,
+                address : address,
+                gender : gender
+            })
+            await userprofile.save()  
+            res.json(userprofile)    
         }catch(err){
             console.log(err)
         }

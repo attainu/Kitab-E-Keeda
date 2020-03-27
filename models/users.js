@@ -20,6 +20,10 @@ const userSchema = new Schema({
     token : {
         type : String,
         trim: true
+    },
+    profile : {
+        type : Schema.Types.ObjectId,
+        ref : 'profile'
     }
 })
 
