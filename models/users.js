@@ -22,8 +22,8 @@ const userSchema = new Schema({
         type : String,
         trim: true
     },
-    Profile  : [{type: Schema.Types.ObjectId,ref:'Profile'}]
-})
+    Profile  : {type: Schema.Types.ObjectId,ref:'Profile'} 
+}) 
 
 
 

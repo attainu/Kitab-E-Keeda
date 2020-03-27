@@ -56,6 +56,7 @@ module.exports = {
     async userProfile (req, res,next) {
             console.log("updated profile sucessfully")
             try {
+                console.log(req.file)
                 res.json(req.body)
                 const user_profile = new User_Profile({...req.body})
                 await user_profile .save()
