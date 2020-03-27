@@ -57,11 +57,13 @@ module.exports = {
             const imageContent = bufferToString(req.file.originalname, req.file.buffer)
             const { secure_url } = await cloudinary.uploader.upload(imageContent)
             const { DOB, address, gender } = req.body
+            const userId = req.params.userId
             const userprofile = new Profile({
                 uploadImage : secure_url,
                 DOB : DOB,
                 address : address,
-                gender : gender
+                gender : gender,
+                user : userId
             })
             await userprofile.save()  
             res.json(userprofile)    
