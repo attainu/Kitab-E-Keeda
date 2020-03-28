@@ -17,6 +17,13 @@ module.exports= {
                     console.log(read.items[i].volumeInfo.publishedDate)
                     console.log(read.items[i].volumeInfo.description)
                     console.log(read.items[i].volumeInfo.imageLinks.thumbnail)
+                    console.log(read.items[i].volumeInfo.averageRating)
+                    console.log(read.items[i].volumeInfo.ratingsCount)
+                    if(read.items[i].saleInfo.listPrice)
+                        console.log(read.items[i].saleInfo.listPrice.amount)
+                    if(read.items[i].saleInfo.listPrice)
+                        console.log(read.items[i].saleInfo.listPrice.currencyCode)
+                    console.log(read.items[i].saleInfo.buyLink)
 
                 }
                 
