@@ -8,12 +8,20 @@ const multer = require('multer');
 var path = require('path');
 const upload = multer({dest: 'uploads/'})
 
+
+
+
+
 router.post('/register', registerUser)
 router.post('/login', authenticate, loginUser)
 router.delete('/logout', logoutUser)
 router.post ('/profile',upload.single('profileImage'), userProfile )
 
-module.exports = router
+module.exports = router;
+
+
+
+
 
 
 

@@ -7,14 +7,17 @@ var path = require('path');
 
 //routes
 const userApiRoute = require('./routes/apiRoutes/userApiRoute')
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use('/profile', express.static('uploads'));
 
-app.get('/', (req, res) => res.send("basic response"))
+app.get('/', (req, res) => res.send('hello world'))
 
 //routes global middlewares
 app.use(userApiRoute);
+
+
 
 
 module.exports = app
