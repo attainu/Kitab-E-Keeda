@@ -1,7 +1,11 @@
+
+
 const router = require('express').Router()
-const{allUserBooks} = require('../../controllers/apiControllers/booksApiController')
+const { postGenre, postFavAuthor, postReadBooks } = require('../../controllers/apiControllers/booksApiController')
 
-   
-router.get('/books',allUserBooks);
+router.post('/books/genre', postGenre )
+router.post('/books/favAuthor', postFavAuthor )
+router.post('/books/readBooks', postReadBooks )
 
-module.exports = router;
+
+module.exports = router    
