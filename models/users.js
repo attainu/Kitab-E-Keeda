@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 const { compare, hash } = require('bcrypt')
-
 const userSchema = new Schema({
     name : {
         type: String,
@@ -22,10 +21,11 @@ const userSchema = new Schema({
         type : String,
         trim: true
     },
-    Profile  : {type: Schema.Types.ObjectId,ref:'Profile'} 
-}) 
-
-
+    // profile : {
+    //     type : Schema.Types.ObjectId,
+    //     ref : 'profile'
+    // }
+})
 
     userSchema.statics.findByEmailAndPassword = async (email, password)=>{
         try{
