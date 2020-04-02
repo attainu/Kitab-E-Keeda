@@ -23,7 +23,7 @@ const userSchema = new Schema({
     },
     genre: {
         type: Array,
-        required: true,
+        required: false,
         default: 'computer'
     },
     favAuthors: {
@@ -31,7 +31,7 @@ const userSchema = new Schema({
         required: false,
     },
     favBooks : {
-        type: Object,
+        type: Array,
         required: false, 
     }
 
