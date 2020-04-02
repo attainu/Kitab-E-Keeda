@@ -21,51 +21,16 @@ const userSchema = new Schema({
         type : String,
         trim: true
     },
-    books : [
-        {
-            title : {
-                type: String,
-                required : true,
-                trim : true
-            },
-            isbn : {
-                unique : true,
-                type : Number,
-                required : true,
-                trim : true
-            },
-            pageCount : {
-                type : Number,
-                required : true,
-                trim : true
-            },
-            publishedDate : {
-                type : Date,
-                trim: true
-            },
-            thumbnailUrl : {
-                type : String,
-                trim: true
-            },
-            shortDescription : {
-                type : String,
-                trim: true
-            },
-            longDescription : {
-                type : String,
-                trim: true
-            },
-            status : {
-                type : String,
-                trim: true
-            },
-            authors : [{
-                type : String,
-                trim: true
-            }],
-        
-        }
-    ]
+    genre: {
+        type: Array,
+        required: true,
+        default: 'computer'
+    },
+    favAuthors: {
+        type: Array,
+        required: false,
+    }
+
     // profile : {
     //     type : Schema.Types.ObjectId,
     //     ref : 'profile'
