@@ -29,6 +29,10 @@ const userSchema = new Schema({
     favAuthors: {
         type: Array,
         required: false,
+    },
+    favBooks : {
+        type: Object,
+        required: false, 
     }
 
     // profile : {

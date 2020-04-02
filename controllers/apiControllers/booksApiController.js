@@ -66,11 +66,11 @@ module.exports = {
 
         const userId = req.params.userId
         let Allgenre = new Genres({
-            favAuthors: genre1,
-            favAuthors: genre2,
-            favAuthors: genre3,
-            favAuthors: genre4,
-            favAuthors: genre5,
+            genre: genre1,
+            genre: genre2,
+            genre: genre3,
+            genre: genre4,
+            genre: genre5,
         })
         Allgenre.save()
         console.log(Allgenre)
@@ -104,17 +104,15 @@ module.exports = {
             title4,
             title5
         } = req.headers
-
         // console.log(req.headers)
         title.push(title1, title2, title3, title4, title5)
-
         const userId = req.params.userId
         let Alltitle = new FavBooks({
-            favAuthors: title1,
-            favAuthors: title2,
-            favAuthors: title3,
-            favAuthors: title4,
-            favAuthors: title5,
+            favBooks: title1,
+            favBooks: title2,
+            favBooks: title3,
+            favBooks: title4,
+            favBooks: title5,
         })
         Alltitle.save()
         console.log(Alltitle)
