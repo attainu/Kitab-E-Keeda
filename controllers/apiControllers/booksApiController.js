@@ -1,7 +1,5 @@
 const User = require('../../models/users')
 const allbooks = require('../../models/allBooks')
-const Genres = require('../../models/users')
-const FavBooks = require('../../models/users')
 
 var dotenv = require("dotenv")
 dotenv.config();
