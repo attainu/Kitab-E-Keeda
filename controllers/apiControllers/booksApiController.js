@@ -10,19 +10,12 @@ module.exports = {
         var favGenreData = []
 
         genres.forEach(el => {
-
             if (el !== undefined) {
-
                 //finding the user and updating it's genres property
-                User.findByIdAndUpdate(userId, {
-                    $push : {
-                        genres : el
-                    }
-                }, (err, resp) => {
+                User.findByIdAndUpdate(userId, { $push : {genres : el} }, (err, resp) => {
                     if (err) console.log(err.message)
                     console.log(resp)
                 })
-
                 //finding the user choosen data in books db and saving it in user db.
                 Books.find({ "volumeInfo.categories": el }, (err, resp)=>{
                     if(err) console.log(err)
@@ -37,24 +30,17 @@ module.exports = {
     },
 
     async postFavAuthor(req, res) { 
-        
         let { author1, author2, author3, author4, author5 } = req.headers
         let authors = [author1, author2, author3, author4, author5]
         const userId = req.params.userId
-
         var favAuthorData = []
         authors.forEach(el => {
-
             if (el !== undefined) {
-
                 //finding the user and updating it's favAuthors property
-                User.findByIdAndUpdate(userId, {
-                    $push : { favAuthors : el }
-                }, (err, doc) => {
+                User.findByIdAndUpdate(userId, {$push : { favAuthors : el }}, (err, doc) => {
                     if (err) console.log(err.message)
                     console.log(doc)
                 })
-
                 //finding the user choosen data in books db and saving it in user db.
                 Books.find({"volumeInfo.authors": el}, (err, resp)=>{
                     if(err) console.log(err)
@@ -68,26 +54,18 @@ module.exports = {
         }, 5000);
     },
 
-    async postReadBooks(req, res) {
+    async postBooksRead(req, res) {
         let { title1, title2, title3, title4, title5 } = req.headers
         let title = [title1, title2, title3, title4, title5]
         const userId = req.params.userId
-
         var favTitleData = []
-
         title.forEach(el => {
             if (el !== undefined) {
-
                 //finding the user and updating it's titles property
-                User.findByIdAndUpdate(userId, {
-                    $push : {
-                        booksRead : el
-                    }
-                }, function (err, resp) {
+                User.findByIdAndUpdate(userId, { $push : { booksRead : el } }, (err, resp) => {
                     if (err) console.log(err.message)
                     console.log(resp)
                 })
-
                 //finding the user choosen data in books db and saving it in user db.
                 Books.find({ "volumeInfo.title": el },(err, resp )=>{
                     if(err) console.log(err)
@@ -122,5 +100,4 @@ module.exports = {
             res.send(err)
         }
     }
-    
 }
