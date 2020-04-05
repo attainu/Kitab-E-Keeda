@@ -5,7 +5,7 @@ module.exports = {
         try{
             const user = req.params.userId
             const foundUser = await Profile.findOne({ user })
-            if(foundUser) return res.send("profile  has been updated for this user")
+            if(foundUser) return res.send("profile has already been set for this user")
             else next()
         }catch(err){
             console.log(err)

@@ -1,43 +1,126 @@
 const Books = require('../../models/books')
-const fetch = require('node-fetch')
-
-const url = 'https://www.googleapis.com/books/v1/volumes?q'
-const apiKey = 'AIzaSyCzzGVsnUvux0EDsxgzkHGBhk1q8Y3HtdI'
-
-// 'https://www.googleapis.com/books/v1/volumes?q=subject:science&startIndex=0&maxResults=40&key=AIzaSyCzzGVsnUvux0EDsxgzkHGBhk1q8Y3HtdI'
+const User = require('../../models/users') 
+const Review = require('../../models/reviews')
 
 module.exports = {
-    // async postGenre(req, res){
-    //     try{
-    //         const genre = []
-    //         const books = []
-    //         const { genre1, genre2, genre3, genre4, genre5 } = req.headers
-    //         genre.push( genre1, genre2, genre3, genre4, genre5 )
-    //         genre.forEach( el => {
-    //             const bookFetch = await fetch(`${url}=subject:${el}&startIndex=0&maxResults=40&key=${apiKey}`)
-    //             const bookDatas = await bookFetch.json()
-    //             books.push( bookDatas )
-    //         })
-    //         res.json(books)        
-    //     }catch(err){
-    //         res.json(err)
-    //     }
-    // }
-     postGenre :  function(req, res){
-        const genre = []
-        const books = []
-        const { genre1, genre2, genre3, genre4, genre5 } = req.headers
-        genre.push( genre1, genre2, genre3, genre4, genre5 )
-        genre.forEach( el => {
-            if(el !== undefined){
-                fetch(`${url}=subject:${el}&startIndex=0&maxResults=10&key=${apiKey}`).then(response => {
-                    return response.json()
-                }).then(bookDatas =>{
-                    books.push( bookDatas )
-                    res.json(books)             // -------------- here the books array is printing with the required data
-                }).catch(err => console.log(err))   
+    async postGenre(req, res) {
+        let { genre1, genre2, genre3, genre4, genre5 } = req.headers
+        let genres = [ genre1, genre2, genre3, genre4, genre5 ]
+        const userId = req.params.userId
+        var favGenreData = []
+
+        genres.forEach(el => {
+
+            if (el !== undefined) {
+
+                //finding the user and updating it's genres property
+                User.findByIdAndUpdate(userId, {
+                    $push : {
+                        genres : el
+                    }
+                }, (err, resp) => {
+                    if (err) console.log(err.message)
+                    console.log(resp)
+                })
+
+                //finding the user choosen data in books db and saving it in user db.
+                Books.find({ "volumeInfo.categories": el }, (err, resp)=>{
+                    if(err) console.log(err)
+                    else if (!resp) console.log("not found")
+                    favGenreData.push(resp)
+                })
             }
         })
-        console.log(books) //---------------- here the books is printing an empty array     
+        setTimeout(() => {
+            res.json(favGenreData)
+        }, 5000);
+    },
+
+    async postFavAuthor(req, res) { 
+        
+        let { author1, author2, author3, author4, author5 } = req.headers
+        let authors = [author1, author2, author3, author4, author5]
+        const userId = req.params.userId
+
+        var favAuthorData = []
+        authors.forEach(el => {
+
+            if (el !== undefined) {
+
+                //finding the user and updating it's favAuthors property
+                User.findByIdAndUpdate(userId, {
+                    $push : { favAuthors : el }
+                }, (err, doc) => {
+                    if (err) console.log(err.message)
+                    console.log(doc)
+                })
+
+                //finding the user choosen data in books db and saving it in user db.
+                Books.find({"volumeInfo.authors": el}, (err, resp)=>{
+                    if(err) console.log(err)
+                    else if (!resp) console.log("not found")
+                    favAuthorData.push(resp)
+                })
+            }
+        })
+        setTimeout(() => {
+            res.json(favAuthorData)
+        }, 5000);
+    },
+
+    async postReadBooks(req, res) {
+        let { title1, title2, title3, title4, title5 } = req.headers
+        let title = [title1, title2, title3, title4, title5]
+        const userId = req.params.userId
+
+        var favTitleData = []
+
+        title.forEach(el => {
+            if (el !== undefined) {
+
+                //finding the user and updating it's titles property
+                User.findByIdAndUpdate(userId, {
+                    $push : {
+                        booksRead : el
+                    }
+                }, function (err, resp) {
+                    if (err) console.log(err.message)
+                    console.log(resp)
+                })
+
+                //finding the user choosen data in books db and saving it in user db.
+                Books.find({ "volumeInfo.title": el },(err, resp )=>{
+                    if(err) console.log(err)
+                    else if (!resp) console.log("not found")
+                    favTitleData.push(resp)           
+                })
+            }
+        })
+        setTimeout(() => {
+            res.json(favTitleData)
+        }, 5000);
+    },
+
+    async addReviews(req, res){
+        try{
+            const { rating, review } = req.headers
+            const userId = req.params.userId
+            const bookId = req.params.bookId
+            const newReview = new Review({
+                rating : rating,
+                review : review,
+                userId : userId,
+                bookId : bookId
+            })
+            await newReview.save()
+            Books.findOneAndUpdate({ _id : bookId }, { $push : { reviews : newReview._id }}).exec((err, resp)=>{
+                if(err) return res.send(err)
+                res.json(resp)
+            })
+        }catch(err){
+            console.log(err);
+            res.send(err)
+        }
     }
+    
 }

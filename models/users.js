@@ -20,6 +20,19 @@ const userSchema = new Schema({
     token : {
         type : String,
         trim: true
+    },
+    genres : {
+        type : Array,
+        required : false,
+        default : "Computers"
+    },
+    favAuthors : {
+        type : Array,
+        required : false,
+    },
+    booksRead : {
+        type : Array,
+        required : false
     }
 })
 
