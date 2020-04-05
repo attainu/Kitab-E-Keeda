@@ -54,7 +54,8 @@ module.exports = {
     async addProfile(req, res){
         //upload files in cloudinary
         try{
-            const imageContent = bufferToString(req.file.originalname, req.file.buffer)
+            const { originalname, buffer } = req.file
+            const imageContent = bufferToString( originalname, buffer)
             const { secure_url } = await cloudinary.uploader.upload(imageContent)
             const { DOB, address, gender } = req.body
             const userId = req.params.userId

@@ -33,7 +33,11 @@ const userSchema = new Schema({
     booksRead : {
         type : Array,
         required : false
-    }
+    },
+    posts : [{
+        type : Schema.Types.ObjectId,
+        ref : 'posts'
+    }]
 })
 
     userSchema.statics.findByEmailAndPassword = async (email, password)=>{
