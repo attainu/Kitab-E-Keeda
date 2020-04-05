@@ -14,6 +14,7 @@ const reviewSchema = new Schema({
          review : String,
          rating : String,
     }]
+
 })
 
 const reviewModel = model('review', reviewSchema)

@@ -6,6 +6,8 @@ const {
 const {
     privateKey
 } = process.env
+const {MESSEGE_BIRD_KEY} = process.env
+const messagebird = require('messagebird')(MESSEGE_BIRD_KEY)
 const uuid = require('uuid/v4')
 const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
 const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
@@ -95,5 +97,44 @@ module.exports = {
         } catch (err) {
             console.log(err)
         }
-    }
+    },
+
+
+  async sendOtp (req, res) {
+      var number = req.body.number
+       
+      ///make a request to verify api token
+      messagebird.verify.create(number,{
+        //   template: 'your verification code is %token'
+      },function(err,response) {
+          if (err){
+              res.send(err)
+          }else {
+              res.send('Otp send  succsessfully')
+              console.log(response.id)
+          }
+      })
+      
+
+  },
+
+  //verify whter the token is correct or not 
+  async verifyOtp(req,res){
+      var id  = req.body.id
+      var token = req.body.token
+      //make a request to verify the api 
+      messagebird.verify.verify(id,token,function(err,response){
+
+          if (err){
+              res.send(err)
+          }else{
+                  res.send(response)
+                  console.log(response)
+              res.status(200).send('verifictaion is sucessful ')
+          }
+      })
+
+  }
+
+
 }

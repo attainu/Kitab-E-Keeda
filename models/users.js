@@ -23,8 +23,8 @@ const userSchema = new Schema({
     },
     genre: {
         type: Array,
-        required: false,
-        default: 'computer'
+        required: false, 
+        
     },
     favAuthors: {
         type: Array,
