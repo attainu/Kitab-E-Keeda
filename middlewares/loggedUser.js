@@ -10,11 +10,13 @@ module.exports = {
             else if(!foundUser.token) next();
             else{
                 const isExpired = verify( foundUser.token, privateKey)
-                if(!isExpired) next()
+                if(!isExpired) {
+                    next()
+                }
                 res.send("you've already logged in")
             }         
         }catch(err){
-            console.log(err)
+            console.log(err.message)
         }
     }
 }

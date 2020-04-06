@@ -23,7 +23,7 @@ module.exports = {
         const { email, password } = req.body
         try {
             const foundUser = await User.findByEmailAndPassword(email, password);
-            sign({id : uuid} , privateKey, { expiresIn : 60*60*60*2 }, (err, token) => {
+            sign({id : uuid} , privateKey, { expiresIn : 60*60*1 }, (err, token) => {
                 if(err) return res.send(err.message);
                 foundUser.token = token 
                 foundUser.save() 

@@ -11,7 +11,17 @@ const booksSchema = new Schema({
     reviews : [{ 
         type : Schema.Types.ObjectId,
         ref : 'reviews'
-    }]
+    }],
+    ratingCount : {
+        type : Number,
+        default : 0,
+        required : false
+    },
+    ratingAvg : {
+        type : Number,
+        required : false
+    }
+
 })
 
 const booksModel = model('books', booksSchema)

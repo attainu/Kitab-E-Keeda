@@ -90,20 +90,31 @@ module.exports = {
             const { rating, review } = req.headers
             const userId = req.params.userId
             const bookId = req.params.bookId
-            const newReview = new Review({
-                rating : rating,
-                review : review,
-                userId : userId,
-                bookId : bookId
-            })
-            await newReview.save()
-            Books.findOneAndUpdate({ _id : bookId }, { $push : { reviews : newReview._id }}).exec((err, resp)=>{
-                if(err) return res.send(err)
-                res.json(resp)
-            })
+            const newReview = new Review({ rating, review, userId, bookId })
+            const Rating = parseInt(rating)
+
+
+            //updating the sum of rratings in the books database/
+            if( typeof(Rating) === 'number' && Rating <= 5 ){
+                Books.findOneAndUpdate({ _id : bookId }, { $inc : { ratingCount : 1 }}).exec((err, resp)=>{
+                    if(err) console.log(err)
+                    let count = resp.ratingCount
+                    let sum = 0
+                    let avgRating = 0
+                    sum += Rating
+                    avgRating = sum/count
+                    finalRating = avgRating.toFixed(2)
+                    Books.findOneAndUpdate({ _id : bookId }, { ratingAvg : finalRating}).exec((err, _) => {if(err) console.log(err)})
+                })
+                Books.findOneAndUpdate({ _id : bookId }, { $push : { reviews : newReview._id }}).exec((err, resp)=>{
+                    if(err) return res.send(err)
+                })
+                await newReview.save()
+                res.send(newReview)
+            }else res.send('wrong format of rating')
+
         }catch(err){
-            console.log(err);
-            res.send(err)
+            console.log(err)
         }
     }
 }

@@ -4,10 +4,10 @@ const profileSchema = new Schema({
     
     uploadImage : {
         type : String,
-        required : true,   
+        required : false,   
     },
     DOB : {
-        type : Date,
+        type : Number,
         required : true,
         default : new Date()
     },

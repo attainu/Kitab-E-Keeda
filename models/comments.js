@@ -13,7 +13,11 @@ const commentSchema = Schema({
     userId : {
         type : Schema.Types.ObjectId,
         ref : 'user'
-    }
+    },
+    threadId : [{
+        type : Schema.Types.ObjectId,
+        ref : 'thread'
+    }]
 })
 
 const commentModel = model('comments', commentSchema)

@@ -6,12 +6,12 @@ const { authenticate } = require('../../middlewares/authenticate')
 router.post('/books/genre/:userId', authenticate, postGenre )
 router.post('/books/favAuthor/:userId',authenticate, postFavAuthor )
 router.post('/books/readBooks/:userId',authenticate, postBooksRead )
-router.post('/books/addReview/:userId/:bookId',authenticate, addReviews )
+router.post('/books/addReview/:userId/:bookId', addReviews )
 
 router.get('/books/getAllBooks', getAllBooks )
 router.get('/books/sortByGenres/:userID', authenticate, sortByGenres )
 router.get('/books/sortByAuthors/:userID', authenticate, sortByAuthors )
-router.get('/user/sortByBooksRead/:userID', authenticate, sortByBooksRead )
+router.get('/books/sortByBooksRead/:userID', authenticate, sortByBooksRead )
 
 
 module.exports = router
