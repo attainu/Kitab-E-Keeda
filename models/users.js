@@ -37,7 +37,11 @@ const userSchema = new Schema({
     posts : [{
         type : Schema.Types.ObjectId,
         ref : 'posts'
-    }]
+    }],
+    // following : [{
+    //     type : Schema.Types.ObjectId
+    // }],
+    // followerCount : Number
 })
 
     userSchema.statics.findByEmailAndPassword = async (email, password)=>{

@@ -105,6 +105,18 @@ module.exports = {
                 res.send(favBookData)
             }, 2000)
         }, 3000);
+    },
+
+    async getSearchedBook(req, res){
+        try{
+            const bookId = req.params.bookId
+            Books.find({ _id : bookId }).exec((err, resp)=>{
+                if(err) return res.send(err)
+                res.send(resp)
+            })
+        }catch(err){
+            console.log(err)
+        }
     }
 
 }
