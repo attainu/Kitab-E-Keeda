@@ -7,12 +7,13 @@ const profileSchema = new Schema({
 
     uploadImage: {
         type: String,
-        required: true,
+        required: false,
+        default : 'https://www.pngitem.com/pimgs/m/22-223968_default-profile-picture-circle-hd-png-download.png'
     },
     DOB: {
-        type: Date,
-        // required : true, 
-        default: new Date()
+        type: String ,
+        required : true, 
+       
     },
     address: {
         type: String,

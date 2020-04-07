@@ -1,14 +1,14 @@
 const router = require('express').Router()
-const { authenticate } = require('../../middlewares/authenticate')
+const { loggedUser } = require('../../middlewares/loggedUser')
 const { updateProfile } = require('../../middlewares/updateProfile')
 const { registerUser, loginUser, logoutUser, addProfile,sendOtp,verifyOtp } = require('../../controllers/apiControllers/userApiController')
 const upload = require('../../fileUpload/multer/multer')
 
-router.post('/register', registerUser) 
-router.post('/login', authenticate, loginUser)
-router.delete('/logout', logoutUser)
-router.post('/profile/:userId', updateProfile, upload.single("uploadImage"), addProfile)
-router.post('/sendotp' , sendOtp)
-router.post('/verifyotp' , verifyOtp) 
+router.post('/user/register', registerUser) 
+router.post('/user/login', loggedUser, loginUser)
+router.delete('/user/logout', logoutUser)
+router.post('/user/profile/:userId', updateProfile, upload.single("uploadImage"), addProfile)
+router.post('/user/verify/sendotp' , sendOtp)
+router.post('/user/verify/verifyotp' , verifyOtp) 
 
 module.exports = router

@@ -21,7 +21,7 @@ const userSchema = new Schema({
         type : String,
         trim: true
     },
-    genre: {
+    genres: {
         type: Array,
         required: false, 
         
