@@ -14,6 +14,8 @@ const userApiRoute = require('./routes/apiRoutes/userApiRoute')
 const booksApiRoute = require('./routes/apiRoutes/booksApiRoute')
 const postsApiRoute = require('./routes/apiRoutes/postsApiRoutes')
 // const getallGenres = require('./routes/apiRoutes/booksApiRoute')
+
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use('/profile', express.static('uploads'));

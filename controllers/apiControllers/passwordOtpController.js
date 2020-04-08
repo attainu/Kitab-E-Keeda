@@ -3,9 +3,7 @@ var User = require("../../models/users");
 const nodemailer = require('nodemailer')
 var cryptoRandomString = require('crypto-random-string')
 var otp = {};
-
-
-var PasswordOtpController = {}
+var PasswordOtpController = {};
 
 
 PasswordOtpController.generateotp = (req, res) => {
@@ -30,6 +28,14 @@ PasswordOtpController.generateotp = (req, res) => {
         .catch(err => console.log(err));
 }
 
+PasswordOtpController.checkotp = (req, res, next) => {
+    if (req.body.otp == otp[req.session.otpid]) {
+        req.session.destroy()
+        next();
+    } else {
+        res.send("false");
+    }
+}
 
 
 async function sendVerificationEmail(email, id) {
@@ -71,4 +77,4 @@ async function sendVerificationEmail(email, id) {
 
 
 
-module.exports  = PasswordOtpController ;
+module.exports = PasswordOtpController;
