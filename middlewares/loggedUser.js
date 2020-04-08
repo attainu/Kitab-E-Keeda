@@ -9,13 +9,13 @@ module.exports = {
             if(!foundUser) return res.send("invalid credentials")
             else if(!foundUser.token) next();
             else{
-                const isExpired = verify( foundUser.token, privateKey)
-                if(!isExpired) {
-                    next()
-                }
+                const isExpired = await verify( foundUser.token, privateKey )
+                console.log(isExpired)
+                if(!isExpired) next()
                 res.send("you've already logged in")
             }         
         }catch(err){
+            if(err.message == "jwt expired") next()
             console.log(err.message)
         }
     }

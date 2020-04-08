@@ -58,16 +58,25 @@ module.exports = {
             const imageContent = bufferToString( originalname, buffer)
             const { secure_url } = await cloudinary.uploader.upload(imageContent)
             const { DOB, address, gender } = req.body
-            const userId = req.params.userId
-            const userprofile = new Profile({
-                uploadImage : secure_url,
-                DOB : DOB,
-                address : address,
-                gender : gender,
-                user : userId
-            })
+            const user = req.params.userId
+            const userprofile = new Profile({ uploadImage : secure_url, DOB, address, gender, user })
             await userprofile.save()  
             res.json(userprofile)    
+        }catch(err){
+            console.log(err)
+        }
+    },
+
+    async followUser(req, res){
+        try{
+            const { follower, following } = req.params
+            User.findOneAndUpdate({ _id : follower }, { $push : { followingUser : following }}).exec((err, _)=>{
+                if(err) console.log(err)
+            })
+            User.findOneAndUpdate({ _id : following }, { $inc : { followerCount : 1}}).exec((err, _)=>{
+                if(err) console.log(err)
+            })
+            res.send("you have followed")
         }catch(err){
             console.log(err)
         }

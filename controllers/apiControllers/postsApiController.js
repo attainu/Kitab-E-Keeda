@@ -8,10 +8,10 @@ module.exports = {
     async createPosts(req, res){
         try{
             const post = req.body.postBody
-            const userId = req.params.userId   
+            const user = req.params.userId   
             const newPost = new Post({ post, user })
             await newPost.save()
-            User.findOneAndUpdate({ _id : userId }, { $push : { posts : newPost._id } }).exec((err, resp)=>{
+            User.findOneAndUpdate({ _id : user }, { $push : { posts : newPost._id } }).exec((err, resp)=>{
                 if(err) console.log(err)
                 console.log(resp)
             })
@@ -79,6 +79,29 @@ module.exports = {
             })
             res.json(newThread)
         }catch(err){
+            console.log(err)
+        }
+    },
+
+    async getPosts(req, res){
+        try {
+            const { userId } = req.params
+            const foundUser = await User.findOne({ _id : userId })
+            const followingUsers = foundUser.followingUser
+            setTimeout(() => {
+                const userPosts = []
+                followingUsers.forEach(el => {
+                    Post.find({ user: el }).exec((err, resp)=>{
+                        if(err) console.log(err) 
+                        else if(resp == []) return res.send("followed users have no posts to show")  
+                        userPosts.push(resp)
+                    })
+                });  
+                setTimeout(()=>{
+                    res.send(userPosts)
+                }, 2000)          
+            }, 3000);
+        } catch (err) {
             console.log(err)
         }
     }
