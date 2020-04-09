@@ -9,7 +9,7 @@ const upload = require('../../fileUpload/multer/multer')
 router.post('/signUp', registerUser)
 router.post('/signIn', loggedUser, loginUser)
 router.delete('/signOff',authenticate, logoutUser)
-router.post('/profile/:userId',authenticate, updateProfile, upload.single("uploadImage"), addProfile)
+router.post('/addProfile/:userId',authenticate, updateProfile, upload.single("uploadImage"), addProfile)
 router.post('/follow/:follower/:following',followedUser, followUser)
 
 module.exports = router

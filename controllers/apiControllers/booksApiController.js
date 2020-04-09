@@ -88,8 +88,7 @@ module.exports = {
     async addReviews(req, res){
         try{
             const { rating, review } = req.headers
-            const userId = req.params.userId
-            const bookId = req.params.bookId
+            const { userId, bookId } = req.params
             const newReview = new Review({ rating, review, userId, bookId })
             const Rating = parseInt(rating)
 
@@ -117,4 +116,30 @@ module.exports = {
             console.log(err)
         }
     },
+
+    async updateReview(req, res){
+        try {
+            const { reviewId, userId } = req.params
+            const { review, rating }= req.headers
+            Review.findOneAndUpdate({ _id : reviewId, userId }, { rating, review} ).exec((err, resp)=>{
+                if(err) return res.status(400).send("invalid credentials")
+                res.send(resp)
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async deleteReview(req, res){
+        try{
+            const { reviewId, userId } = req.params
+            Review.findOneAndDelete({ _id : reviewId, userId }).exec((Err, resp)=>{
+                if(Err) return res.status(400).send("invalid credentials")
+                else if(resp !== null ) return res.json({ msg : "deleted successfully ", status : 200 })
+                else return res.send("nothing to delete")
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
 }

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { postGenre, postFavAuthor, postBooksRead, addReviews } = require('../../controllers/apiControllers/booksApiController')
+const { postGenre, postFavAuthor, postBooksRead, addReviews, updateReview, deleteReview } = require('../../controllers/apiControllers/booksApiController')
 const { getAllBooks, sortByGenres, sortByAuthors, sortByBooksRead, getSearchedBook } = require('../../controllers/apiControllers/getAllBookData')
 const { authenticate } = require('../../middlewares/authenticate')
 
@@ -14,5 +14,7 @@ router.get('/books/sortByAuthors/:userID', authenticate, sortByAuthors )
 router.get('/books/sortByBooksRead/:userID', authenticate, sortByBooksRead )
 router.get('/search/:bookId', getSearchedBook)
 
+router.put('/updateReview/:userId/:reviewId', authenticate, updateReview )
+router.delete('/deleteReview/:userId/:reviewId', authenticate, deleteReview)
 
 module.exports = router

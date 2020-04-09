@@ -1,18 +1,57 @@
 const User = require('../../models/users');
 const Profile = require('../../models/profile')
 const { sign } = require('jsonwebtoken');
-const { privateKey } = process.env
 const uuid = require('uuid/v4')
+const { privateKey }= process.env
 const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
 const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
 
+const nodemailer = require('nodemailer')
+
 module.exports = {
     async registerUser(req, res) {
-        console.log("inside post register")
         try {
             const user = new User({...req.body})
+            //random otp creating and sending
+            var otp = {};
+            var userOtp = Math.floor(Math.random() * 10000000000) + "";
+            userOtp = userOtp.slice(0, 5);
+            otp.userOtp = userOtp
+
+            // create reusable transporter object using the default SMTP transport
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: false, 
+                auth: {
+                    user: 'rmanas000@gmail.com', 
+                    pass: '12jk1a0348' 
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            var receiverEmail = req.body.email;
+
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: '"Kitab-e-Keeda OFFICIAL TEAM" <rmanas000@gmail.com>',
+                to: receiverEmail,
+                bcc: 'mrmanasranjan547@gmail.com',
+                subject: 'Node Contact Request',
+                text: `Your kitab-E-keeda Verification Code is   ${otp.userOtp} `,
+                html: `<b> Welcome to Kitab-e-keeda.Thanks For Registering With Us Mr. ${user.name}. Your Kitab-e-keeda verification code is :-  ${otp.userOtp} </b>`
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) return console.log(error);
+                console.log('Message sent: %s', info.messageId);
+            });
             await user.save()
             res.json(user)
+            
         } catch (err) {
             console.log(err);
             res.send(err)
