@@ -196,6 +196,20 @@ module.exports = {
             }
         }) 
 
+    },
+    async followUser(req, res){
+        try{
+            const { follower, following } = req.params
+            User.findOneAndUpdate({ _id : follower }, { $push : { followingUser : following }}).exec((err, _)=>{
+                if(err) console.log(err)
+            })
+            User.findOneAndUpdate({ _id : following }, { $inc : { followerCount : 1}}).exec((err, _)=>{
+                if(err) console.log(err)
+            })
+            res.send("you have followed")
+        }catch(err){
+            console.log(err)
+        }
     }
 
 
