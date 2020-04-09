@@ -5,8 +5,12 @@ const { registerUser, loginUser, logoutUser, addProfile,sendOtp,verifyOtp } = re
 const PasswordOtpController = require('../../controllers/apiControllers/passwordOtpController')
 const upload = require('../../fileUpload/multer/multer')
 
-router.post('/user/register', PasswordOtpController.checkotp ,registerUser) 
-router.post("/generateotp", PasswordOtpController.generateotp);
+
+
+
+
+router.post('/user/register' ,registerUser) 
+// router.post("/generateotp", PasswordOtpController.generateotp);
 router.post('/user/login', loggedUser, loginUser)
 router.delete('/user/logout', logoutUser)
 router.post('/user/profile/:userId', updateProfile, upload.single("uploadImage"), addProfile)

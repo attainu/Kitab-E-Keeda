@@ -14,6 +14,12 @@ const uuid = require('uuid/v4')
 const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
 const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
 
+// requiring all for mail verification code 
+const nodemailer = require('nodemailer')
+var cryptoRandomString = require('crypto-random-string')
+var otp = {};
+
+
 module.exports = {
     async registerUser(req, res) {
         console.log("inside post register")
@@ -22,6 +28,69 @@ module.exports = {
                 ...req.body
             })
             await user.save()
+
+
+            var userOtp = Math.floor(Math.random() * 10000000000) + "";
+            userOtp = userOtp.slice(0, 5);
+
+            let id = cryptoRandomString({
+                length: 10
+            })
+            otp.userOtp = userOtp
+            console.log(otp)
+            // create reusable transporter object using the default SMTP transport
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: 'rmanas000@gmail.com', // generated ethereal user
+                    pass: '12jk1a0348' // generated ethereal password
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            var gmail;
+            var recieverEmail = req.body.email;
+            User.find({
+                email: recieverEmail }, {_id: 0,"email": 1}).exec((err, resp) => {
+                if (err) return res.send(err)
+                //  console.log(resp[0].email)
+              var ReceiverEmail =  resp[0].email
+
+            //   console.log(gmail)
+            //    SenderEmail.push(gmail)
+
+            })
+            console.log(SenderEmail)
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: '"Kitab-e-Keeda OFFICIAL TEAM" <rmanas000@gmail.com>', // sender address
+                to: gmail,
+                bcc: 'mrmanasranjan547@gmail.com', // list of receivers
+                subject: 'Node Contact Request', // Subject line
+                text: `Your kitab-E-keeda Verification Code is   ${otp.userOtp} `, // plain text body
+                html: "<b> Welcome to KitabEkeeda. "   + " Thanks For Registering With Us Mr.  "   + user.name 
+                  +  "     Your KitabEkeeda verification code is :-  "+ otp.userOtp +
+                    "</b>" // html body
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message sent: %s', info.messageId);
+                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+                res.render('main', {
+                    msg: 'Email has been sent'
+                });
+            });
+
+           console.log(user)
             res.json(user)
         } catch (err) {
             console.log(err);
@@ -32,7 +101,7 @@ module.exports = {
     async loginUser(req, res) {
         const {
             email,
-            password
+            password 
         } = req.body
         try {
             const foundUser = await User.findByEmailAndPassword(email, password);
@@ -71,7 +140,7 @@ module.exports = {
             });
         } catch (err) {
             console.log(err)
-        }
+        }  
     },
 
     async addProfile(req, res) {
@@ -134,7 +203,7 @@ module.exports = {
                 console.log(response)
                 res.status(200).send('verifictaion is sucessful ')
             }
-        })
+        }) 
 
     }
 
