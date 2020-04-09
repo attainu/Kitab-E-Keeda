@@ -52,23 +52,14 @@ module.exports = {
                     rejectUnauthorized: false
                 }
             });
-            var gmail;
+            
             var recieverEmail = req.body.email;
-            User.find({
-                email: recieverEmail }, {_id: 0,"email": 1}).exec((err, resp) => {
-                if (err) return res.send(err)
-                //  console.log(resp[0].email)
-              var ReceiverEmail =  resp[0].email
-
-            //   console.log(gmail)
-            //    SenderEmail.push(gmail)
-
-            })
-            console.log(SenderEmail)
+           
+            
             // setup email data with unicode symbols
             let mailOptions = {
                 from: '"Kitab-e-Keeda OFFICIAL TEAM" <rmanas000@gmail.com>', // sender address
-                to: gmail,
+                to: recieverEmail, 
                 bcc: 'mrmanasranjan547@gmail.com', // list of receivers
                 subject: 'Node Contact Request', // Subject line
                 text: `Your kitab-E-keeda Verification Code is   ${otp.userOtp} `, // plain text body
