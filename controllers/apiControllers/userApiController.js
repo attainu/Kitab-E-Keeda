@@ -5,15 +5,15 @@ const uuid = require('uuid/v4')
 const { privateKey }= process.env
 const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
 const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
-
+var otp = { userotp : 0 };
 const nodemailer = require('nodemailer')
 
 module.exports = {
     async registerUser(req, res) {
         try {
             const user = new User({...req.body})
+            await user.save()
             //random otp creating and sending
-            var otp = {};
             var userOtp = Math.floor(Math.random() * 10000000000) + "";
             userOtp = userOtp.slice(0, 5);
             otp.userOtp = userOtp
@@ -49,7 +49,6 @@ module.exports = {
                 if (error) return console.log(error);
                 console.log('Message sent: %s', info.messageId);
             });
-            await user.save()
             res.json(user)
             
         } catch (err) {
@@ -116,6 +115,24 @@ module.exports = {
                 if(err) console.log(err)
             })
             res.send("you have followed")
+        }catch(err){
+            console.log(err)
+        }
+    },
+
+    async verifyUser(req, res){
+        try{
+            const { userId }  =req.params
+            const { code } = req.headers
+            Code = parseInt(code)
+            const foundUser = await User.findById(userId)
+            if(!foundUser) return res.status(400).send("invalid credentials")
+            else if(typeof(Code) !== 'number') return res.send("code format mismatched")
+            else if(Code == otp.userOtp ) {
+                const foundUser = await User.findOneAndUpdate({ _id : userId }, { verified : true })
+                if(!foundUser) return res.status(400).send("invalid credentials")
+                res.status(200).json({ msg : "code verified" })
+            }else return res.send("code didnt match")
         }catch(err){
             console.log(err)
         }

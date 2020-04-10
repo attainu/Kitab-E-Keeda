@@ -7,6 +7,7 @@ module.exports = {
         try{
             const foundUser = await User.findOne({ email : req.body.email }) 
             if(!foundUser) return res.send("invalid credentials")
+            else if(foundUser.verified == false ) return res.send("verify your email first") 
             else if(!foundUser.token) next();
             else{
                 const isExpired = await verify( foundUser.token, privateKey )
