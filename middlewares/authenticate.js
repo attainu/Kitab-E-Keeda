@@ -5,8 +5,7 @@ const { privateKey } = process.env
 module.exports  = {
     async authenticate(req, res, next){
         try{
-            const userId = req.params.userId
-            if(!userId) return res.send("invalid credentials")
+            const { userId }= req.params
             const foundUser = await User.findOne({ _id : userId })
             if(!foundUser) return res.send("invalid credentials")
             else if(!foundUser.token) return res.send("login required")

@@ -9,9 +9,9 @@ router.post('/books/readBooks/:userId',authenticate, postBooksRead )
 router.post('/books/addReview/:userId/:bookId', addReviews )
 
 router.get('/books/getAllBooks', getAllBooks )
-router.get('/books/sortByGenres/:userID', authenticate, sortByGenres )
-router.get('/books/sortByAuthors/:userID', authenticate, sortByAuthors )
-router.get('/books/sortByBooksRead/:userID', authenticate, sortByBooksRead )
+router.get('/books/sortByGenres/:userId', authenticate, sortByGenres )
+router.get('/books/sortByAuthors/:userId', authenticate, sortByAuthors )
+router.get('/books/sortByBooksRead/:userId', authenticate, sortByBooksRead )
 router.get('/search/:bookId', getSearchedBook)
 
 router.put('/updateReview/:userId/:reviewId', authenticate, updateReview )

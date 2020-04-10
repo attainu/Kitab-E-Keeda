@@ -26,7 +26,7 @@ module.exports = {
                 }
             })
             setTimeout(() => {
-                res.json(favGenreData)
+                res.send(favGenreData)
             }, 5000);        
         }catch(err){ console.log(err) }
     },
