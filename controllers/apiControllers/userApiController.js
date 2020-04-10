@@ -2,7 +2,7 @@ const User = require('../../models/users');
 const Profile = require('../../models/profile')
 const { sign } = require('jsonwebtoken');
 const uuid = require('uuid/v4')
-const { privateKey }= process.env
+const { privateKey, mailPassword }= process.env
 const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
 const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
 var otp = { userotp : 0 };
@@ -26,7 +26,7 @@ module.exports = {
                 secure: false, 
                 auth: {
                     user: 'rmanas000@gmail.com', 
-                    pass: '12jk1a0348' 
+                    pass: mailPassword 
                 },
                 tls: {
                     rejectUnauthorized: false
