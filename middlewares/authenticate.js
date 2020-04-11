@@ -1,6 +1,6 @@
 const User = require('../models/users')
 const { verify } = require('jsonwebtoken')
-const { privateKey } = process.env
+const { PrivateKey } = process.env
 
 module.exports  = {
     async authenticate(req, res, next){
@@ -11,7 +11,7 @@ module.exports  = {
             else if(!foundUser.token) return res.send("login required")
             else if(foundUser.verified == false) return res.send("email is not verified")
             else{
-                const isExpired = verify( foundUser.token, privateKey )
+                const isExpired = verify( foundUser.token, PrivateKey )
                 if(!isExpired) return res.send("login Expired")
                 next()
             }

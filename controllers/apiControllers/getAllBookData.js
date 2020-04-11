@@ -5,9 +5,10 @@ module.exports = {
     async getAllBooks(req, res) {
         let page = req.query.page
         Books.find({}, {
-            _id: 0,
+            _id: 1,
             "volumeInfo.title": 1,
             "volumeInfo.authors": 1,
+            "volumeInfo.categories": 1,
             "volumeInfo.imageLinks.smallThumbnail": 1,
             "volumeInfo.publishedDate": 1,
             "saleInfo.listPrice.amount": 1
@@ -15,32 +16,28 @@ module.exports = {
             if (err) {
                 console.log(err)
             }
-            res.send(data)
+            res.json(data)
         })
     },
 
     async sortByGenres(req, res) { 
         var myGenre = []
-        const userID = req.params.userID;
-        User.find({ _id: userID}, { _id: 0, genre: 1} ).exec((err, data) => {
+        const { userId } = req.params;
+        User.find({ _id: userId}).exec((err, data) => {
             if (err) console.log(err)
             console.log(data)
-            if( data = [] ) return res.send("no genres chosen")
-            else 
-                data[0].genre.forEach(el => {
+            data[0].genres.forEach(el => {
                 myGenre.push(el)
                 console.log(el)
             })
         })
-        if(myGenre = []) console.log("no genres")
-        else 
             setTimeout(() => {
                 var favGenreData = []
                 myGenre.forEach(ele => {
                     Books.find({ "volumeInfo.categories": ele }, {
-                        _id: 0,
+                        _id: 1,
                         "volumeInfo.title": 1,
-                        "volumeInfo.authors": 1,
+                        "volumeInfo.categories": 1,
                         "volumeInfo.imageLinks.smallThumbnail": 1,
                         "volumeInfo.publishedDate": 1,
                         "saleInfo.listPrice.amount": 1
@@ -53,25 +50,22 @@ module.exports = {
     },
 
     async sortByAuthors(req, res) { 
-        const userID = req.params.userID;
+        const userID = req.params.userId;
         var myAuthor = []
         User.find({ _id: userID }, { _id: 0,favAuthors: 1 }).exec((err, data) => {
             if (err) console.log(err)
             console.log(data)
-            if( data = [] ) return res.send("no Authors chosen")
-            else 
                 data[0].favAuthors.forEach(el => {
                 myAuthor.push(el)
                 console.log(el)
             })
         })
-        if( myAuthor = []) console.log("no authors added")
-        else 
+
             setTimeout(() => {
                 var favAuthorData = []
                 myAuthor.forEach(ele => {
                     Books.find({ "volumeInfo.authors": ele }, {
-                        _id: 0,
+                        _id: 1,
                         "volumeInfo.title": 1,
                         "volumeInfo.authors": 1,
                         "volumeInfo.imageLinks.smallThumbnail": 1,
@@ -86,26 +80,22 @@ module.exports = {
     },
 
     async sortByBooksRead(req, res) {
-        const userID = req.params.userID;
+        const userID = req.params.userId;
         var myTitle = []
         User.find({_id: userID}, {_id: 0,favBooks: 1}).exec((err, data) => {
             if (err) console.log(err)
             console.log(data)
-            if( data = [] ) return res.send("no booksRead chosen")
-            else 
                 data[0].favBooks.forEach(el => {
                 myTitle.push(el)
                 console.log(el)
             })
-        })
-        if(myTitle = []) console.log("no BooksRead added")
-        else 
+        }) 
             setTimeout(() => {
                 var favBookData = []
                 myTitle.forEach(ele => {
                     Books.find({
                         "volumeInfo.title": ele }, {
-                        _id: 0,
+                        _id: 1,
                         "volumeInfo.title": 1,
                         "volumeInfo.authors": 1,
                         "volumeInfo.imageLinks.smallThumbnail": 1,
