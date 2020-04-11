@@ -136,5 +136,16 @@ module.exports = {
         }catch(err){
             console.log(err)
         }
+    },
+
+    async searchUser(req, res){
+        try{
+            const { userId } = req.params
+            const foundUser = await User.findOne({ _id : userId })
+            if(!foundUser) return res.send("invalid credentials")
+            res.send(foundUser)
+        }catch(err){
+            console.log(err)
+        }
     }
 }

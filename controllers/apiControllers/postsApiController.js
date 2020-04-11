@@ -106,7 +106,7 @@ module.exports = {
             const { post } = req.headers
             const foundPost = await Post.findOneAndUpdate({ _id : postId, user : userId }, { post })
             if(!foundPost) return res.status(400).send("invalid credentials")
-            res.json({msg : "post updated successfully", resp })
+            res.json({msg : "post updated successfully", foundPost })
         }catch(err){
             console.log(err)
         }
