@@ -1,6 +1,6 @@
 const User = require('../models/users');
 const { verify } = require('jsonwebtoken')
-const { privateKey } = process.env
+const { PrivateKey } = process.env
 
 module.exports = {
     async loggedUser(req, res, next){
@@ -10,7 +10,7 @@ module.exports = {
             else if(foundUser.verified == false ) return res.send("verify your email first") 
             else if(!foundUser.token) next();
             else{
-                const isExpired = await verify( foundUser.token, privateKey )
+                const isExpired = await verify( foundUser.token, PrivateKey )
                 console.log(isExpired)
                 if(!isExpired) next()
                 res.send("you've already logged in")

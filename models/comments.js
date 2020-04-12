@@ -1,9 +1,19 @@
-const { Schema, model } =require('sequelize');
+const { Sequelize, Model } = require("sequelize");
 
-const commentSchema = Schema({
+const sequelize = require('../db');
+class Comment extends Model {
+
+}
+const commentSchema = {
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
     comment : {
-        type : String,
-        required :true
+        type : Sequelize.STRING,
+        allowNull : false
     },
     postId : {
         type : Schema.Types.ObjectId,
@@ -18,7 +28,11 @@ const commentSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'thread'
     }]
-})
+}
 
-const commentModel = model('comments', commentSchema)
-module.exports = commentModel
+Comment.init(commentSchema, {
+    sequelize,
+    tableName: "comments"
+})  
+
+module.exports = Comment;

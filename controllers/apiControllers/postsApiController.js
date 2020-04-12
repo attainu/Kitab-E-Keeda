@@ -25,7 +25,8 @@ module.exports = {
             const { userId, postId } = req.params
             const newComment = new Comment({ comment, userId, postId })
             await newComment.save()
-            const foundPost = Post.findOneAndUpdate({ _id : postId }, { $push : { comments : newComment._id }})
+            const foundPost = await Post.findOneAndUpdate({ _id : postId }, { $push : { comments : newComment._id }})
+            console.log(foundPost)
             if(!foundPost) return res.status(400).send("invalid credentials")
             res.send(newComment)
         }catch(err){
@@ -85,15 +86,14 @@ module.exports = {
             setTimeout(() => {
                 const userPosts = []
                 followingUsers.forEach(el => {
-                    Post.find({ user: el }).exec((err, resp)=>{
-                        if(err) console.log(err) 
-                        else if(resp == []) return res.send("followed users have no posts to show")  
-                        userPosts.push(resp)
-                    })
-                });  
-                setTimeout(()=>{
-                    res.send(userPosts)
-                }, 2000)          
+                     Post.find({ user: el }).then(doc =>{
+                         if(!doc) console.log(err)
+                         else userPosts.push(doc)                     
+                        }).catch(err => console.log(err))
+                });
+                    setTimeout(()=>{
+                        res.json(userPosts)
+                    }, 2000)          
             }, 3000);
         } catch (err) {
             console.log(err)
@@ -106,7 +106,7 @@ module.exports = {
             const { post } = req.headers
             const foundPost = await Post.findOneAndUpdate({ _id : postId, user : userId }, { post })
             if(!foundPost) return res.status(400).send("invalid credentials")
-            res.json({msg : "post updated successfully", resp })
+            res.json({msg : "post updated successfully", foundPost })
         }catch(err){
             console.log(err)
         }
@@ -115,9 +115,9 @@ module.exports = {
     async deletePosts(req, res){
         try{
             const { userId, postId } = req.params
-            const foundPost = await Post.findOneAndDelete({ _id : postId, userId })
+            const foundPost = await Post.findOneAndDelete({ _id : postId, user : userId })
             if(!foundPost) return res.status(400).send("invalid credentials")
-            else if(resp !== null ) res.json({msg : "post deleted successfully", resp })
+            else if(foundPost !== null ) res.json({msg : "post deleted successfully", foundPost })
             else return res.status(200).send("nothing to delete")
             Comment.deleteMany({ postId, userId }).exec((err, _)=>{
                 if(err) console.log(err.message)
@@ -138,7 +138,7 @@ module.exports = {
             const { comment } = req.headers
             const foundComment = await Comment.findOneAndUpdate({ _id : commentId, userId }, { comment })
             if(!foundComment) return res.status(400).send("invalid credntials")
-            res.json({ msg : "comment updated successfully ", resp })
+            res.json({ msg : "comment updated successfully ", foundComment })
         }catch(err){
             console.log(err)
         }
@@ -149,7 +149,7 @@ module.exports = {
             const { userId, commentId } = req.params
             const foundComment = await Comment.findOneAndDelete({ _id : commentId })
             if(!foundComment) return res.send("invalid credentials")
-            else if(resp !== null ) res.json({msg:"comment deleted successfully", resp})
+            else if(foundComment !== null ) res.json({msg:"comment deleted successfully", foundComment})
             else return res.status(200).send("nothing to delete")
             Thread.deleteMany({ commentId, userId }).exec((err, _)=>{
                 if(err) console.log(err)
@@ -166,7 +166,7 @@ module.exports = {
             const { thread } = req.headers
             const foundThread = await Thread.findOneAndUpdate({ _id : threadId ,userId }, { thread})
             if(!foundThread) return res.send("invalid credentials")
-            res.json({ msg: "thread updated successfully", resp })
+            res.json({ msg: "thread updated successfully", foundThread })
         }catch(err){
             console.log(err)
         }
@@ -182,6 +182,18 @@ module.exports = {
             })
         }catch(err){
             console.log(err)
+        }
+    },
+
+    async searchPost(req, res){
+        try {
+            const { postId }  = req.params
+            const foundPost = await Post.find({ _id : postId })
+            if(!foundPost) return res.send("invalid credentials")
+            console.log(foundPost)
+            res.json(foundPost)
+        } catch (error) {
+            console.log(error)
         }
     }
 }

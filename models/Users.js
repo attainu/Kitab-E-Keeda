@@ -1,11 +1,20 @@
-const Sequelize = require('sequelize');
 
-const db = require('../db');
+const  posts = require('./posts')
+const sequelize = require('../db');
 
+const { Sequelize, Model } = require("sequelize");
+class User extends Model {
 
+}
 // name of table in kitabEkeeda is Users  
 
-const User = db.define('users',{
+const userSchema = {
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
     name : {
         type : Sequelize.STRING,
         force: true,
@@ -24,7 +33,8 @@ const User = db.define('users',{
     },
     verified : {
         type : Sequelize.BOOLEAN,
-        allowNull:true
+        allowNull:true,
+        defaultValue: false
 
     },
     token : {
@@ -48,8 +58,8 @@ const User = db.define('users',{
     posts:{
         type: Sequelize.INTEGER,
         references: {
-            model: 'posts',
-            key: 'id'
+            model: posts,
+            key: '_id'
         }
     },
     followingUser:{
@@ -60,8 +70,13 @@ const User = db.define('users',{
         defaultValue:0
     }
 
-});
+};
 
+
+User.init(userSchema, {
+    sequelize,
+    tableName: "users"
+})  
 
 module.exports = User;
 

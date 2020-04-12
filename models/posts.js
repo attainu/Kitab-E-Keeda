@@ -1,7 +1,15 @@
-const { sequelize } =require('sequelize')
-const uuid = require('uuid/v4')
+const sequelize = require('../db');
+const UUID = require('uuid/v4')
+const User = require('./users')
+const Comment = require('./comments')
+const Likes = require('./likes')
 
-const postModel = sequelize.define( ' posts', {
+
+const { Sequelize, Model } = require("sequelize");
+class Post extends Model {
+
+}
+const postSchema =  {
     _id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -16,22 +24,22 @@ const postModel = sequelize.define( ' posts', {
     user : {
         type: Sequelize.INTEGER,
         references: {
-            model: 'users',
-            key: 'id'
+            model: User,
+            key: '_id'
         },
     },
     comments : [{
         type: Sequelize.INTEGER,
         references: {
-            model: 'comments',
-            key: 'id'
+            model: Comment,
+            key: '_id'
         }}
     ],
     likes : [{
         type: Sequelize.INTEGER,
         references: {
-            model: 'likes',
-            key: 'id'
+            model: Likes,
+            key: '_id'
         }
     }],
     likesCount : {
@@ -42,7 +50,10 @@ const postModel = sequelize.define( ' posts', {
         type : sequilize.INTEGER,
         defaultValue : 0
     }
-})
+}
 
-
-module.exports = postModel
+Post.init(postSchema, {
+    sequelize,
+    tableName: "posts"
+})  
+module.exports = Post

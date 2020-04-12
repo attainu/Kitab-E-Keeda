@@ -1,11 +1,16 @@
 const { sequelize } =require('sequelize');
+const sequelize = require('../db');
+const User = require('./users')
+const { Sequelize, Model } = require("sequelize");
+class Profile extends Model {
 
-const profileModel = sequelize.define ( 'profile'  {
+}
+const profileSchema = sequelize.define ( 'profile' , {
     
     uploadImage : {
         type : sequelize.STRING ,
         allowNull: false,
-        defaultValue :
+        defaultValue : "https://songtr.ee/songs/userimages/cache/imgid822526_1000x1000.jpg"
     },
     DOB : {
         type : sequelize.DATE ,
@@ -24,7 +29,7 @@ const profileModel = sequelize.define ( 'profile'  {
     user : {
         type: Sequelize.INTEGER,
         references: {
-            model: 'users',
+            model: User,
             key: 'id'
         },
         
@@ -32,4 +37,11 @@ const profileModel = sequelize.define ( 'profile'  {
 })
 
 
-module.exports = profileModel
+Profile.init(profileSchema, {
+    sequelize,
+    tableName: "profile"
+})  
+
+
+
+module.exports = Profile

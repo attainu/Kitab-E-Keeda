@@ -17,6 +17,9 @@ const sequelize = new Sequelize(POSTGRES_URI.replace("<password>", POSTGRES_PASS
 
 });
 
+
+sequelize.sync()
+
 //TEST DB 
 sequelize
   .authenticate()

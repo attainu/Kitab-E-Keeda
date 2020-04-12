@@ -2,7 +2,7 @@ const User = require('../../models/users');
 const Profile = require('../../models/profile')
 const { sign } = require('jsonwebtoken');
 const uuid = require('uuid/v4')
-const { privateKey, mailPassword }= process.env
+const { PrivateKey, mailPassword }= process.env 
 const cloudinary = require('../../fileUpload/cloudinary/cloudinary')
 const bufferToString = require('../../fileUpload/bufferToString/bufferToString')
 var otp = { userotp : 0 };
@@ -61,7 +61,7 @@ module.exports = {
         const { email, password } = req.body
         try {
             const foundUser = await User.findByEmailAndPassword(email, password);
-            sign({id : uuid} , privateKey, { expiresIn : 60*60*1 }, (err, token) => {
+            sign({id : uuid} , PrivateKey, { expiresIn : 60*60*1 }, (err, token) => {
                 if(err) return res.send(err.message);
                 foundUser.token = token 
                 foundUser.save() 
@@ -92,16 +92,25 @@ module.exports = {
     async addProfile(req, res){
         //upload files in cloudinary
         try{
-            const { originalname, buffer } = req.file
-            const imageContent = bufferToString( originalname, buffer)
-            const { secure_url } = await cloudinary.uploader.upload(imageContent)
-            const { DOB, address, gender } = req.body
-            const user = req.params.userId
-            const userprofile = new Profile({ uploadImage : secure_url, DOB, address, gender, user })
-            await userprofile.save()  
-            res.json(userprofile)    
+            if(req.file == undefined || req.file == null){
+                const { DOB, address, gender } = req.body
+                const user = req.params.userId
+                const userprofile = new Profile({DOB, address, gender, user })
+                await userprofile.save()  
+                res.json(userprofile)             
+            }else{
+                const { originalname, buffer } = req.file
+                const imageContent = bufferToString( originalname, buffer)
+                const { secure_url } = await cloudinary.uploader.upload(imageContent)
+                const { DOB, address, gender } = req.body
+                const user = req.params.userId
+                const userprofile = new Profile({ uploadImage : secure_url, DOB, address, gender, user })
+                await userprofile.save()  
+                res.json(userprofile)             
+            }   
         }catch(err){
             console.log(err)
+            res.send(err)
         }
     },
 
@@ -109,10 +118,10 @@ module.exports = {
         try{
             const { follower, following } = req.params
             User.findOneAndUpdate({ _id : follower }, { $push : { followingUser : following }}).exec((err, _)=>{
-                if(err) console.log(err)
+                if(err) res.send(err)
             })
             User.findOneAndUpdate({ _id : following }, { $inc : { followerCount : 1}}).exec((err, _)=>{
-                if(err) console.log(err)
+                if(err) res.send(err)
             })
             res.send("you have followed")
         }catch(err){
@@ -133,6 +142,17 @@ module.exports = {
                 if(!foundUser) return res.status(400).send("invalid credentials")
                 res.status(200).json({ msg : "code verified" })
             }else return res.send("code didnt match")
+        }catch(err){
+            console.log(err)
+        }
+    },
+
+    async searchUser(req, res){
+        try{
+            const { userId } = req.params
+            const foundUser = await User.findOne({ _id : userId })
+            if(!foundUser) return res.send("invalid credentials")
+            res.send(foundUser)
         }catch(err){
             console.log(err)
         }

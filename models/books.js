@@ -1,11 +1,20 @@
-const { Schema, model } = require('sequelize');
+const { Sequelize, Model } = require('sequelize');
+const sequelize = require('../db');
+class Book extends Model {
 
-const booksSchema = new Schema({
-    kind: { type: String },
-    id : { type : String },
-    etag : { type : String },
-    selfLink : { type : String },
-    volumeInfo : { type: Object },
+}
+const booksSchema = {
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
+    kind: { type: Sequelize.STRING  },
+    id : { type : Sequelize.STRING },
+    etag : { type : Sequelize.STRING },
+    selfLink : { type : Sequelize.STRING },
+    volumeInfo : { type: Sequelize.OBJECT },
     saleInfo : { type : Object },
     accessInfo : { type : Object },
     reviews : [{ 
@@ -22,8 +31,12 @@ const booksSchema = new Schema({
         required : false
     }
 
-})
+}
 
-const booksModel = model('books', booksSchema)
 
-module.exports = booksModel
+Book.init(booksSchema, {
+    sequelize,
+    tableName: "books"
+})  
+
+module.exports = Book
