@@ -7,11 +7,11 @@ const { registerUser, loginUser, logoutUser, addProfile, followUser, verifyUser,
 const upload = require('../../fileUpload/multer/multer')
 
 router.post('/signUp', registerUser)
-// router.post('/signIn',  loginUser)
-// router.delete('/signOff/:userId',logoutUser)
-// router.post('/addProfile/:userId', upload.single("uploadImage"), addProfile)
-// router.post('/follow/:follower/:following', followUser)
-// router.post('/verify/:userId', verifyUser)
-// router.post('/searchUser/:userId', searchUser)
+router.post('/signIn',  loginUser)
+router.delete('/signOff/:userId',logoutUser)
+router.post('/addProfile/:userId', upload.single("uploadImage"), addProfile)
+router.post('/follow/:follower/:following', followUser)
+router.post('/verify/:userId', verifyUser)
+router.post('/searchUser/:userId', searchUser)
 
 module.exports = router

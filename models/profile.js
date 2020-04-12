@@ -5,7 +5,7 @@ const { Sequelize, Model } = require("sequelize");
 class Profile extends Model {
 
 }
-const profileSchema = sequelize.define ( 'profile' , {
+const profileSchema =  {
     _id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -40,7 +40,7 @@ const profileSchema = sequelize.define ( 'profile' , {
         },
         
     } 
-})
+}
 
 
 Profile.init(profileSchema, {
