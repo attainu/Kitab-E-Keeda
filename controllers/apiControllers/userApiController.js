@@ -11,8 +11,8 @@ const nodemailer = require('nodemailer')
 module.exports = {
     async registerUser(req, res) {
         try {
-            const user = new User({...req.body})
-            await user.save()
+            const user = await User.create({...req.body})
+            
             //random otp creating and sending
             var userOtp = Math.floor(Math.random() * 10000000000) + "";
             userOtp = userOtp.slice(0, 5);
@@ -95,8 +95,8 @@ module.exports = {
             if(req.file == undefined || req.file == null){
                 const { DOB, address, gender } = req.body
                 const user = req.params.userId
-                const userprofile = new Profile({DOB, address, gender, user })
-                await userprofile.save()  
+                const userprofile = await Profile.create({DOB, address, gender, user })
+                
                 res.json(userprofile)             
             }else{
                 const { originalname, buffer } = req.file
@@ -104,8 +104,8 @@ module.exports = {
                 const { secure_url } = await cloudinary.uploader.upload(imageContent)
                 const { DOB, address, gender } = req.body
                 const user = req.params.userId
-                const userprofile = new Profile({ uploadImage : secure_url, DOB, address, gender, user })
-                await userprofile.save()  
+                const userprofile = await Profile.create({ uploadImage : secure_url, DOB, address, gender, user })
+                
                 res.json(userprofile)             
             }   
         }catch(err){
