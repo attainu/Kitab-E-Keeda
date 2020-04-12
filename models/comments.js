@@ -1,5 +1,7 @@
 const { Sequelize, Model } = require("sequelize");
-
+const Post = require('./posts')
+const Thread = require('./threads')
+const User = require('./users')
 const sequelize = require('../db');
 class Comment extends Model {
 
@@ -16,17 +18,26 @@ const commentSchema = {
         allowNull : false
     },
     postId : {
-        type : Schema.Types.ObjectId,
-        ref : 'posts',
-        required : true
+        type : Sequelize.STRING,
+        references: {
+            model: Post,
+            key: '_id'
+        },
+        allowNull : false
     },
     userId : {
-        type : Schema.Types.ObjectId,
-        ref : 'user'
+        type : Sequelize.STRING,
+        references: {
+            model: User,
+            key: '_id'
+        }
     },
     threadId : [{
-        type : Schema.Types.ObjectId,
-        ref : 'thread'
+        type : Sequelize.STRING,
+        references: {
+            model: Thread,
+            key: '_id'
+        }
     }]
 }
 

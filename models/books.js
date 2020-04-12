@@ -14,12 +14,15 @@ const booksSchema = {
     id : { type : Sequelize.STRING },
     etag : { type : Sequelize.STRING },
     selfLink : { type : Sequelize.STRING },
-    volumeInfo : { type: Sequelize.OBJECT },
-    saleInfo : { type : Object },
-    accessInfo : { type : Object },
+    volumeInfo : { type: Sequelize.STRING  },
+    saleInfo : { type : Sequelize.STRING  },
+    accessInfo : { type :Sequelize.STRING },
     reviews : [{ 
-        type : Schema.Types.ObjectId,
-        ref : 'reviews'
+        type : Sequelize.STRING,
+        references: {
+            model: Review,
+            key: '_id'
+        }
     }],
     ratingCount : {
         type : Number,

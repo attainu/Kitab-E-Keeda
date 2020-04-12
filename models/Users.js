@@ -56,7 +56,7 @@ const userSchema = {
 
     },
     posts:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
             model: posts,
             key: '_id'

@@ -1,16 +1,41 @@
-const { Schema, model } = require('sequelize');
-const threadSchema = Schema({
+
+const sequelize = require('../db');
+const User = require('./users')
+const Comment = require('./comments')
+const { Sequelize, Model } = require("sequelize");
+class Thread extends Model {
+
+}
+const threadSchema = {
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
     thread : {
         type : String,
         required : true,
     },
     userId : {
-        type : Schema.Types.ObjectId,
-        ref : 'user'
+        type : Sequelize.STRING,
+        references: {
+            model: User,
+            key: '_id'
+        }
     },
     commentId : {
-        type : Schema.Types.ObjectId,
-        ref :'comments'
+        type : Sequelize.STRING,
+        references: {
+            model: Comment,
+            key: '_id'
+        }
     }
-})
-module.exports = model('thread', threadSchema)
+}
+
+Thread.init(threadSchema, {
+    sequelize,
+    tableName: "thread"
+})  
+
+module.exports = Thread;

@@ -1,23 +1,45 @@
-const { Schema, model } =require('sequelize');
+const sequelize = require('../db');
+const User = require('./users')
+const Books = require('./books')
+const { Sequelize, Model } = require("sequelize");
+class Review extends Model {
 
-const reviewsSchema = new Schema({
+}
+
+const reviewsSchema = {
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
     rating :  {
-        type: Number,
-        required: true
+        type: Sequelize.INTEGER,
+        allowNull: false
     },
     review : {
-        type : String,
-        required : true
+        type : Sequelize.STRING,
+        allowNull: false
     },
     userId : {
-        type : Schema.Types.ObjectId,
-        ref : 'user'
+        type : Sequelize.STRING,
+        references: {
+            model: User,
+            key: '_id'
+        }
     },
     bookId : {
-        type : Schema.Types.ObjectId,
-        ref : 'books'
+        type : Sequelize.STRING,
+        references: {
+            model: Books,
+            key: '_id'
+        }
     }
-})
+}
 
-const reviewModel = model('reviews', reviewsSchema)
-module.exports = reviewModel
+Review.init(reviewsSchema, {
+    sequelize,
+    tableName: "reviews"
+})  
+
+module.exports = User;

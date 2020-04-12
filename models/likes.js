@@ -1,22 +1,43 @@
-const { Schema, model } =require('sequelize');
+const sequelize = require('../db');
+
+const { Sequelize, Model} = require("sequelize");
+class Like extends Model {
+
+}
+
 const likesSchema = Schema({
-    like : {
-        type : Boolean,
-        required: true
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
+    like: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
     },
     // dislike : {
     //     type : Boolean,
     //     required: true
     // },
-    userId : {
-        type : Schema.Types.ObjectId,
-        ref : 'user'
+    userId: {
+        type: Sequelize.STRING,
+        references: {
+            model: User,
+            key: '_id'
+        }
     },
-    postId : {
-        type : Schema.Types.ObjectId,
-        ref : 'posts'
+    postId: {
+        type: Sequelize.STRING,
+        references: {
+            model: Post,
+            key: '_id'
+        }
     }
 })
+Like.init(likesSchema, {
+    sequelize,
+    tableName: "likes"
+})
 
-const likeModel = model('likes', likesSchema)
-module.exports = likeModel
+module.exports = Like
