@@ -1,11 +1,12 @@
 const sequelize = require('../db');
-
+const User = require('./users')
+const Post = require('./posts')
 const { Sequelize, Model} = require("sequelize");
 class Like extends Model {
 
 }
 
-const likesSchema = Schema({
+const likesSchema = {
     _id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -34,7 +35,7 @@ const likesSchema = Schema({
             key: '_id'
         }
     }
-})
+}
 Like.init(likesSchema, {
     sequelize,
     tableName: "likes"

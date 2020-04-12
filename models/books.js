@@ -25,13 +25,13 @@ const booksSchema = {
         }
     }],
     ratingCount : {
-        type : Number,
-        default : 0,
-        required : false
+        type : Sequelize.INTEGER,
+        defaultValue : 0,
+        allowNull : true
     },
     ratingAvg : {
-        type : Number,
-        required : false
+        type : Sequelize.INTEGER,
+        allowNull : true
     }
 
 }

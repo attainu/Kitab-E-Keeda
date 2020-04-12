@@ -5,7 +5,7 @@ const Comment = require('./comments')
 const Likes = require('./likes')
 
 
-const { Sequelize, Model } = require("sequelize");
+const { Sequelize, Model } = require('sequelize');
 class Post extends Model {
 
 }
@@ -18,7 +18,7 @@ const postSchema =  {
     },
    
     post : {
-        type : sequelize.STRING,
+        type : Sequelize.STRING,
         allowNull: false
     },
     user : {
@@ -43,11 +43,11 @@ const postSchema =  {
         }
     }],
     likesCount : {
-        type : sequelize.INTEGER,
+        type : Sequelize.INTEGER,
         defaultValue : 0
     },
     disLikesCount : {
-        type : sequilize.INTEGER,
+        type : Sequilize.INTEGER,
         defaultValue : 0
     }
 }

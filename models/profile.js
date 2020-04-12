@@ -6,6 +6,12 @@ class Profile extends Model {
 
 }
 const profileSchema = sequelize.define ( 'profile' , {
+    _id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull:false
+    },
     
     uploadImage : {
         type : sequelize.STRING ,

@@ -14,8 +14,8 @@ const threadSchema = {
         allowNull:false
     },
     thread : {
-        type : String,
-        required : true,
+        type : Sequelize.STRING,
+        allowNull : true
     },
     userId : {
         type : Sequelize.STRING,
