@@ -1,10 +1,24 @@
 
 const  posts = require('./posts')
 const sequelize = require('../db');
-
+const { compare, hash } = require('bcrypt')
 const { Sequelize, Model } = require("sequelize");
 class User extends Model {
-
+    static async findByEmailAndPassword(email, password) {
+      try {
+        const user = await User.findOne({
+          where: {
+            email
+          }
+        });
+        if (!user) throw new Error("Incorrect credentials");
+        const isMatched = await compare(password, user.password);
+        if (!isMatched) throw new Error("Incorrect credentials");
+        return user;
+      } catch (err) {
+        throw err;
+      }
+    }
 }
 // name of table in kitabEkeeda is Users  
 
@@ -42,16 +56,16 @@ const userSchema = {
         allowNull: true
     },
     genres: {
-        type : Sequelize.STRING,
+        type : Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
-        defaultValue: false
+        
     },
     favAuthors : {
-        type: Sequelize.STRING,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true
     },
     booksRead:{
-        type : Sequelize.STRING,
+        type : Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true
 
     },
@@ -62,7 +76,7 @@ const userSchema = {
       },
 
     followingUser:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.ARRAY(Sequelize.UUID),
         allowNull: true
     },
     follwerCount:{
@@ -74,10 +88,25 @@ const userSchema = {
 };
 
 
+
+
+
 User.init(userSchema, {
     sequelize,
-    tableName: "users"
+    tableName: "users" 
 })  
+
+User.beforeCreate(async user => {
+    const hashedPassword = await hash(user.password, 10);
+    user.password = hashedPassword;
+  });
+  
+  User.beforeUpdate(async user => { 
+    if (user.changed("password")) {
+      const hashedPassword = await hash(user.password, 10);
+      user.password = hashedPassword;
+    }
+  });
 
 module.exports = User;
 

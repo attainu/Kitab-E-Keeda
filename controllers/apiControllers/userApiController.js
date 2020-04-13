@@ -12,7 +12,7 @@ module.exports = {
     async registerUser(req, res) {
         try {
             console.log(req.body)
-            const user =  User.create({...req.body})
+            const user = await User.create({...req.body})
 
             
             //random otp creating and sending
@@ -61,12 +61,14 @@ module.exports = {
 
     async loginUser(req, res) {
         const { email, password } = req.body
-        try {
+        try {   
+            
             const foundUser = await User.findByEmailAndPassword(email, password);
+            console.log(foundUser)
             sign({id : uuid} , PrivateKey, { expiresIn : 60*60*1 }, (err, token) => {
                 if(err) return res.send(err.message);
                 foundUser.token = token 
-                foundUser.save() 
+                foundUser.save(); 
                 return res.json({
                    "message": "login successfull",
                     "user": foundUser
@@ -81,7 +83,7 @@ module.exports = {
     async logoutUser(req, res){
         const token = req.headers.authentication
         try{
-            const foundUser = await User.findOneAndUpdate({ token },{$unset : {token}})
+            const foundUser = await User.update({$unset : {token}},{where :{token: token }})
             if(!foundUser) return res.send("invalid credentials")
             return res.json({
                 "message" : "logged out successfully"
@@ -97,7 +99,7 @@ module.exports = {
             if(req.file == undefined || req.file == null){
                 const { DOB, address, gender } = req.body
                 const user = req.params.userId
-                const userprofile =  Profile.create({DOB, address, gender, user })
+                const userprofile = await Profile.create({DOB, address, gender, user })
                 
                 res.json(userprofile)             
             }else{
@@ -106,7 +108,7 @@ module.exports = {
                 const { secure_url } = await cloudinary.uploader.upload(imageContent)
                 const { DOB, address, gender } = req.body
                 const user = req.params.userId
-                const userprofile =  Profile.create({ uploadImage : secure_url, DOB, address, gender, user })
+                const userprofile =  await Profile.create({ uploadImage : secure_url, DOB, address, gender, user })
                 
                 res.json(userprofile)             
             }   
@@ -136,11 +138,11 @@ module.exports = {
             const { userId }  =req.params
             const { code } = req.headers
             Code = parseInt(code)
-            const foundUser = await User.findById(userId)
+            const foundUser = await User.findOne({where:{_id: userId}}) 
             if(!foundUser) return res.status(400).send("invalid credentials")
             else if(typeof(Code) !== 'number') return res.send("code format mismatched")
             else if(Code == otp.userOtp ) {
-                const foundUser = await User.findOneAndUpdate({ _id : userId }, { verified : true })
+                const foundUser = await User.update( { verified : true }, {where:{ _id : userId }})
                 if(!foundUser) return res.status(400).send("invalid credentials")
                 res.status(200).json({ msg : "code verified" })
             }else return res.send("code didnt match")

@@ -46,4 +46,4 @@ Review.init(reviewsSchema, {
     tableName: "reviews"
 })  
 
-module.exports = User;
+module.exports = Review;
