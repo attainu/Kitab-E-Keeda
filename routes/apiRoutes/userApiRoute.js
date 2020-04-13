@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const { loggedUser } = require('../../middlewares/loggedUser')
-const { authenticate } = require('../../middlewares/authenticate')
-const { updateProfile } = require('../../middlewares/updateProfile')
-const { followedUser } = require('../../middlewares/followedUser')
+// const { loggedUser } = require('../../middlewares/loggedUser')
+// const { authenticate } = require('../../middlewares/authenticate')
+// const { updateProfile } = require('../../middlewares/updateProfile')
+// const { followedUser } = require('../../middlewares/followedUser')
 const { registerUser, loginUser, logoutUser, addProfile, followUser, verifyUser, searchUser } = require('../../controllers/apiControllers/userApiController')
 const upload = require('../../fileUpload/multer/multer')
 

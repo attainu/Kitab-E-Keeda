@@ -17,13 +17,15 @@ const booksSchema = {
     volumeInfo : { type: Sequelize.STRING  },
     saleInfo : { type : Sequelize.STRING  },
     accessInfo : { type :Sequelize.STRING },
-    reviews : [{ 
-        type : Sequelize.STRING,
+    reviews : { 
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: Review,
             key: '_id'
         }
-    }],
+    },
     ratingCount : {
         type : Sequelize.INTEGER,
         defaultValue : 0,

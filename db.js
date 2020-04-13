@@ -2,6 +2,8 @@
 const Sequelize = require('sequelize');
 
 const {POSTGRES_URI,POSTGRES_PASSWORD} = process.env;
+console.log(POSTGRES_URI,POSTGRES_PASSWORD)
+
 
 // Option 1: Passing parameters separatel)
 const sequelize = new Sequelize(POSTGRES_URI.replace("<password>", POSTGRES_PASSWORD), {
@@ -13,12 +15,12 @@ const sequelize = new Sequelize(POSTGRES_URI.replace("<password>", POSTGRES_PASS
     min: 0,
     acquire: 30000,
     idle: 10000
-  },
+  }, 
 
 });
 
 
-sequelize.sync()
+
 
 //TEST DB 
 sequelize
@@ -30,5 +32,5 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-
+  sequelize.sync()
   module.exports = sequelize ;

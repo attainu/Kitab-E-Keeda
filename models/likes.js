@@ -22,14 +22,18 @@ const likesSchema = {
     //     required: true
     // },
     userId: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: User,
             key: '_id'
         }
     },
     postId: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: Post,
             key: '_id'

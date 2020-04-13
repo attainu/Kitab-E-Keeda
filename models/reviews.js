@@ -22,14 +22,18 @@ const reviewsSchema = {
         allowNull: false
     },
     userId : {
-        type : Sequelize.STRING,
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: User,
             key: '_id'
         }
     },
     bookId : {
-        type : Sequelize.STRING,
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: Books,
             key: '_id'

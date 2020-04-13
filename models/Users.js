@@ -42,32 +42,37 @@ const userSchema = {
         allowNull: true
     },
     genres: {
-        type : Sequelize.ARRAY,
+        type : Sequelize.STRING,
         allowNull: true,
         defaultValue: false
     },
     favAuthors : {
-        type: Sequelize.ARRAY,
+        type: Sequelize.STRING,
         allowNull: true
     },
     booksRead:{
-        type : Sequelize.ARRAY,
+        type : Sequelize.STRING,
         allowNull: true
 
     },
-    posts:{
-        type: Sequelize.STRING,
+    posts: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
         references: {
-            model: posts,
-            key: '_id'
+          model: posts,
+          key: '_id'
         }
-    },
+      },
+
     followingUser:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: true
     },
     follwerCount:{
         type: Sequelize.INTEGER,
-        defaultValue:0
+        defaultValue:0,
+        allowNull: true
     }
 
 };

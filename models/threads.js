@@ -18,14 +18,18 @@ const threadSchema = {
         allowNull : true
     },
     userId : {
-        type : Sequelize.STRING,
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: User,
             key: '_id'
         }
     },
     commentId : {
-        type : Sequelize.STRING,
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: Comment,
             key: '_id'

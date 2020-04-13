@@ -1,4 +1,4 @@
-const { sequelize } =require('sequelize');
+
 const sequelize = require('../db');
 const User = require('./users')
 const { Sequelize, Model } = require("sequelize");
@@ -14,29 +14,30 @@ const profileSchema =  {
     },
     
     uploadImage : {
-        type : sequelize.STRING ,
-        allowNull: false,
-        defaultValue : "https://songtr.ee/songs/userimages/cache/imgid822526_1000x1000.jpg"
+        type : Sequelize.STRING ,
+        allowNull: false
     },
     DOB : {
-        type : sequelize.DATE ,
+        type : Sequelize.DATE ,
         allowNull: false ,
-        defaultValue: sequelize.NOW
+        defaultValue: Sequelize.NOW
     },
     address : {
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     gender : {
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         defaultValue : 'male'
     },
     user : {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: User,
-            key: 'id'
+            key: '_id'
         },
         
     } 

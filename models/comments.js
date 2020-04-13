@@ -26,19 +26,23 @@ const commentSchema = {
         allowNull : false
     },
     userId : {
-        type : Sequelize.STRING,
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: User,
             key: '_id'
         }
     },
-    threadId : [{
-        type : Sequelize.STRING,
+    threadId : {
+        type : Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         references: {
             model: Thread,
             key: '_id'
         }
-    }]
+    }
 }
 
 Comment.init(commentSchema, {
