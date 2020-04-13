@@ -121,12 +121,27 @@ module.exports = {
     async followUser(req, res){
         try{
             const { follower, following } = req.params
-            User.update( { $push : { followingUser : following }} ,{where:{ _id : follower }}).exec((err, _)=>{
-                if(err) res.send(err)
-            })
-            User.update( { $inc : { followerCount : 1}},{where:{ _id : following }}).exec((err, _)=>{
-                if(err) res.send(err)
-            })
+            const foundUser = await User.findOne({ where:{ _id : follower }})
+            if(!foundUser) return res.send("invalid credentials")
+            else{
+                let followingUser = foundUser.followingUser
+                followingUser.push(following)            
+                // console.log(doc)
+            }
+                 
+            // .exec((err, doc)=>{
+            //     if(err) res.send(err)
+            //     else{
+            //         let followingUser = doc.followingUser
+            //         followingUser.push(following)                
+            //         console.log(doc)
+            //     }
+            // })
+            // await User.findOne({where:{ _id : following }}).exec((err, doc)=>{
+            //         if(err) res.send(err)
+            //         else doc.followerCount += 1
+            //         console.log(doc)
+            // })
             res.send("you have followed Your Friend ")
         }catch(err){
             console.log(err)

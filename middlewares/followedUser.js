@@ -16,11 +16,12 @@ module.exports = {
                 if(!isExpired) return res.send("token expired")
                 //verifying if the follower has already followed the user
                 const testUsers = followerUser.followingUser
-                if(testUsers.length == 0) next()
-                testUsers.find( el => {
-                    if(following == el) return res.send("already following")
-                    else next()
-                })
+                if(testUsers == null) next()
+                console.log(testUsers)
+                // testUsers.find( el => {
+                //     if(following == el) return res.send("already following")
+                //     else next()
+                // })
             } 
         
         }catch(err){
