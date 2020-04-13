@@ -13,8 +13,6 @@ module.exports = {
         try {
             console.log(req.body)
             const user = await User.create({...req.body})
-
-            
             //random otp creating and sending
             var userOtp = Math.floor(Math.random() * 10000000000) + "";
             userOtp = userOtp.slice(0, 5);
@@ -64,11 +62,11 @@ module.exports = {
         try {   
             
             const foundUser = await User.findByEmailAndPassword(email, password);
-            console.log(foundUser)
+            // console.log(foundUser)
             sign({id : uuid} , PrivateKey, { expiresIn : 60*60*1 }, (err, token) => {
                 if(err) return res.send(err.message);
                 foundUser.token = token 
-                foundUser.save(); 
+                // foundUser.save(); 
                 return res.json({
                    "message": "login successfull",
                     "user": foundUser
@@ -83,7 +81,7 @@ module.exports = {
     async logoutUser(req, res){
         const token = req.headers.authentication
         try{
-            const foundUser = await User.update({$unset : {token}},{where :{token: token }})
+            const foundUser = await User.update( { token: null },{where :{token }})
             if(!foundUser) return res.send("invalid credentials")
             return res.json({
                 "message" : "logged out successfully"

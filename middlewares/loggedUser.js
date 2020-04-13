@@ -11,7 +11,6 @@ module.exports = {
             else if(!foundUser.token) next();
             else{
                 const isExpired = await verify( foundUser.token, PrivateKey )
-                console.log(isExpired)
                 if(!isExpired) next()
                 res.send("you've already logged in")
             }  
