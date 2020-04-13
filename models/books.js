@@ -14,13 +14,13 @@ const booksSchema = {
     id : { type : Sequelize.STRING },
     etag : { type : Sequelize.STRING },
     selfLink : { type : Sequelize.STRING },
-    volumeInfo : { type: Sequelize.STRING  },
-    saleInfo : { type : Sequelize.STRING  },
-    accessInfo : { type :Sequelize.STRING },
+    volumeInfo : { type: Sequelize.ARRAY(Sequelize.STRING)  },
+    saleInfo : { type :Sequelize.ARRAY(Sequelize.STRING) },
+    accessInfo : { type :Sequelize.ARRAY(Sequelize.STRING)},
     reviews : { 
         type : Sequelize.ARRAY(Sequelize.UUID),
         
-        allowNull: false,
+        allowNull: true,
         
     },
     ratingCount : {
