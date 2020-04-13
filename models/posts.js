@@ -23,30 +23,24 @@ const postSchema =  {
     },
     user : {
         type: Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: User,
+            model: 'users',
             key: '_id'
         },
     },
     comments : {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        allowNull: false,
-        references: {
-            model: Comment,
-            key: '_id'
-        }}
+        type: Sequelize.ARRAY(Sequelize.UUID),
+       
+        allowNull: true,
+    }
     ,
     likes : {
-        type: Sequelize.UUID,
-        primaryKey: true,
+        type:  Sequelize.ARRAY(Sequelize.UUID),
+      
         allowNull: false,
-        references: {
-            model: Likes,
-            key: '_id'
-        }
+      
     },
     likesCount : {
         type : Sequelize.INTEGER,

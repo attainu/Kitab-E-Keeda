@@ -18,30 +18,28 @@ const commentSchema = {
         allowNull : false
     },
     postId : {
-        type : Sequelize.STRING,
+        type : Sequelize.UUID,
+        foreignKey: true,
+        allowNull: false,
         references: {
-            model: Post,
+            model: 'posts',
             key: '_id'
         },
         allowNull : false
     },
     userId : {
         type : Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: User,
+            model: 'users',
             key: '_id'
         }
     },
     threadId : {
-        type : Sequelize.UUID,
-        primaryKey: true,
-        allowNull: false,
-        references: {
-            model: Thread,
-            key: '_id'
-        }
+        type : Sequelize.ARRAY(Sequelize.UUID),
+        allowNull: true,
+     
     }
 }
 

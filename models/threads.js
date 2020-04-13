@@ -19,19 +19,19 @@ const threadSchema = {
     },
     userId : {
         type : Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: User,
+            model: 'users',
             key: '_id'
         }
     },
     commentId : {
         type : Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: Comment,
+            model: 'comments',
             key: '_id'
         }
     }

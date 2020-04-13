@@ -33,10 +33,10 @@ const profileSchema =  {
     },
     user : {
         type: Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: User,
+            model: 'users',
             key: '_id'
         },
         

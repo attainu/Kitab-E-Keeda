@@ -23,19 +23,19 @@ const reviewsSchema = {
     },
     userId : {
         type : Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: User,
+            model: 'users',
             key: '_id'
         }
     },
     bookId : {
         type : Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: Books,
+            model: 'books',
             key: '_id'
         }
     }

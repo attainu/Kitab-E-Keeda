@@ -56,13 +56,9 @@ const userSchema = {
 
     },
     posts: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true,
-        references: {
-          model: posts,
-          key: '_id'
-        }
+        type: Sequelize.ARRAY(Sequelize.UUID),
+        allowNull: true,
+       
       },
 
     followingUser:{

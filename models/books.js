@@ -18,13 +18,10 @@ const booksSchema = {
     saleInfo : { type : Sequelize.STRING  },
     accessInfo : { type :Sequelize.STRING },
     reviews : { 
-        type : Sequelize.UUID,
-        primaryKey: true,
+        type : Sequelize.ARRAY(Sequelize.UUID),
+        
         allowNull: false,
-        references: {
-            model: Review,
-            key: '_id'
-        }
+        
     },
     ratingCount : {
         type : Sequelize.INTEGER,

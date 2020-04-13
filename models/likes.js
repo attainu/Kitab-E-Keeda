@@ -17,25 +17,25 @@ const likesSchema = {
         type: Sequelize.BOOLEAN,
         allowNull: false
     },
-    // dislike : {
-    //     type : Boolean,
-    //     required: true
-    // },
+    dislike : {
+        type : Sequelize.BOOLEAN,
+        allowNull: false
+    },
     userId: {
         type: Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: User,
+            model: 'users',
             key: '_id'
         }
     },
     postId: {
         type: Sequelize.UUID,
-        primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
-            model: Post,
+            model: 'posts',
             key: '_id'
         }
     }
