@@ -58,12 +58,14 @@ const userSchema = {
     genres: {
         type : Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
-        defaultValue : ["computers"]
+        defaultValue: []
+        
         
     },
     favAuthors : {
         type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: true
+        allowNull: true,
+        
     },
     booksRead:{
         type : Sequelize.ARRAY(Sequelize.STRING),
@@ -79,7 +81,7 @@ const userSchema = {
     followingUser:{
         type: Sequelize.ARRAY(Sequelize.UUID),
         allowNull: true ,
-        defaultValue: [],
+        
     },
     follwerCount:{
         type: Sequelize.INTEGER,
