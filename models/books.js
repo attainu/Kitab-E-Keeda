@@ -11,7 +11,7 @@ const booksSchema = {
         allowNull:false
     },
     title : { type: Sequelize.STRING  },
-    authors : { type : Sequelize.STRING },
+    authors : { type : Sequelize.ARRAY(Sequelize.STRING) },
     publisher : { type : Sequelize.STRING },
     publishdate : { type : Sequelize.STRING },
     description : { type: Sequelize.STRING },

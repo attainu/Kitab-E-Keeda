@@ -1,6 +1,5 @@
 const User = require('../../models/Users');
 const Profile = require('../../models/profile')
-const Follower = require('../../models/followingUser')
 const { sign } = require('jsonwebtoken');
 const uuid = require('uuid/v4')
 const { PrivateKey, mailPassword }= process.env 
@@ -116,22 +115,6 @@ module.exports = {
         }catch(err){
             console.log(err)
             res.send(err)
-        }
-    },
-
-    async followUser(req, res){
-        try{
-            const { follower, following } = req.params
-            const newFollower = await Follower.create({
-                followerUser : follower,
-                followingUser : following
-            })
-            res.json({
-                msg: "you have followed the user",
-                newFollower
-            })
-        }catch(err){
-            console.log(err)
         }
     },
 
