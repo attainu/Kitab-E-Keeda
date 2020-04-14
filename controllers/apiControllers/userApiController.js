@@ -63,10 +63,12 @@ module.exports = {
             
             const foundUser = await User.findByEmailAndPassword(email, password);
             // console.log(foundUser)
-            sign({id : uuid} , PrivateKey, { expiresIn : 60*60*1 }, (err, token) => {
+            sign({id : uuid} , PrivateKey, { expiresIn : 60*60*10 }, (err, token) => {
                 if(err) return res.send(err.message);
                 foundUser.token = token 
-                // foundUser.save(); 
+            //    const tokenUpdated =  User.update( { token : foundUser.token }, {where:{email: foundUser.email }})
+                  foundUser.save()
+                 
                 return res.json({
                    "message": "login successfull",
                     "user": foundUser
@@ -81,7 +83,7 @@ module.exports = {
     async logoutUser(req, res){
         const token = req.headers.authentication
         try{
-            const foundUser = await User.update( { token: null },{where :{token }})
+            const foundUser = await User.update( { token: null },{where :{token :token }})
             if(!foundUser) return res.send("invalid credentials")
             return res.json({
                 "message" : "logged out successfully"
@@ -119,13 +121,13 @@ module.exports = {
     async followUser(req, res){
         try{
             const { follower, following } = req.params
-            User.findOneAndUpdate({ _id : follower }, { $push : { followingUser : following }}).exec((err, _)=>{
+            User.update( { $push : { followingUser : following }} ,{where:{ _id : follower }}).exec((err, _)=>{
                 if(err) res.send(err)
             })
-            User.findOneAndUpdate({ _id : following }, { $inc : { followerCount : 1}}).exec((err, _)=>{
+            User.update( { $inc : { followerCount : 1}},{where:{ _id : following }}).exec((err, _)=>{
                 if(err) res.send(err)
             })
-            res.send("you have followed")
+            res.send("you have followed Your Friend ")
         }catch(err){
             console.log(err)
         }

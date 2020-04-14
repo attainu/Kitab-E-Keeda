@@ -18,9 +18,9 @@ const profileSchema =  {
         allowNull: false
     },
     DOB : {
-        type : Sequelize.DATE ,
+        type : Sequelize.STRING ,
         allowNull: false ,
-        defaultValue: Sequelize.NOW
+        defaultValue: '30/06/1994'
     },
     address : {
         type: Sequelize.STRING,
