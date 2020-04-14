@@ -121,31 +121,23 @@ module.exports = {
     async followUser(req, res){
         try{
             const { follower, following } = req.params
-            const foundUser = await User.findOne({ where:{ _id : follower }})
-            if(!foundUser) return res.send("invalid credentials")
-          else {
-                let followingUser = foundUser.followingUser
-                if(foundUser.followingUser==null){
-                    followingUser.push(following) 
-                }
-                           
-                // console.log(doc)
-            }
-                 
-            // .exec((err, doc)=>{
+            await User.update( { followingUser : following },{where:{_id:follower}}).then(() => {
+                res.status(200).send("updated successfully " );
+                if(err) res.send(err)
+                });
+            // User.update({ _id : following }, { $inc : { followerCount : 1}}).exec((err, _)=>{
             //     if(err) res.send(err)
-            //     else{
-            //         let followingUser = doc.followingUser
-            //         followingUser.push(following)                
-            //         console.log(doc)
-            //     }
             // })
-            // await User.findOne({where:{ _id : following }}).exec((err, doc)=>{
-            //         if(err) res.send(err)
-            //         else doc.followerCount += 1
-            //         console.log(doc)
-            // })
-            res.send("you have followed Your Friend ")
+            res.send("you have followed")
+
+            // const foundUser = await User.findOne({ where: { _id : follower }})
+            // var genre = foundUser.genres
+            // genre.push("Mathematics")
+
+            // var follow = foundUser.followingUser
+            // follow.push(following)
+            // foundUser.save()
+            // console.log(foundUser)
         }catch(err){
             console.log(err)
         }

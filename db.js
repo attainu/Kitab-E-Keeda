@@ -25,4 +25,4 @@ sequelize
   });
 
   sequelize.sync()
-  module.exports = sequelize ;
+  module.exports = sequelize ;  
