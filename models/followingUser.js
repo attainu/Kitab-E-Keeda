@@ -18,7 +18,16 @@ const followingSchema = {
             model: 'users',
             key: '_id'
         },
-    }
+    },
+    followerUser : {
+        type: Sequelize.UUID,
+        foreignKey: true,
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: '_id'
+        },
+    },
 }
 
 following.init(followingSchema, {

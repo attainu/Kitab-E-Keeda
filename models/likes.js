@@ -1,7 +1,5 @@
 const sequelize = require('../db');
-const User = require('./users')
-const Post = require('./posts')
-const { Sequelize, Model} = require("sequelize");
+const { Sequelize, Model } = require("sequelize");
 class Like extends Model {
 
 }
@@ -17,10 +15,10 @@ const likesSchema = {
         type: Sequelize.BOOLEAN,
         allowNull: false
     },
-    dislike : {
-        type : Sequelize.BOOLEAN,
-        allowNull: false
-    },
+    // dislike : {
+    //     type : Sequelize.BOOLEAN,
+    //     allowNull: false
+    // },
     userId: {
         type: Sequelize.UUID,
         foreignKey: true,

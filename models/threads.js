@@ -1,7 +1,6 @@
 
 const sequelize = require('../db');
 const User = require('./users')
-const Comment = require('./comments')
 const { Sequelize, Model } = require("sequelize");
 class Thread extends Model {
 

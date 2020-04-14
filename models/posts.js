@@ -1,14 +1,6 @@
 const sequelize = require('../db');
-const UUID = require('uuid/v4')
-const User = require('./users')
-const Comment = require('./comments')
-const Likes = require('./likes')
-
-
 const { Sequelize, Model } = require('sequelize');
-class Post extends Model {
-
-}
+class Post extends Model {}
 const postSchema =  {
     _id: {
         type: Sequelize.UUID,
@@ -30,24 +22,14 @@ const postSchema =  {
             key: '_id'
         },
     },
-    // comments : {
-    //     type: Sequelize.ARRAY(Sequelize.UUID),
-       
-    //     allowNull: true,
-    // }
-    // ,
-    // likes : {
-    //     type:  Sequelize.ARRAY(Sequelize.UUID),
-    //     allowNull: false,
+    // likesCount : {
+    //     type : Sequelize.INTEGER,
+    //     defaultValue : 0
     // },
-    likesCount : {
-        type : Sequelize.INTEGER,
-        defaultValue : 0
-    },
-    disLikesCount : {
-        type : Sequelize.INTEGER,
-        defaultValue : 0
-    }
+    // disLikesCount : {
+    //     type : Sequelize.INTEGER,
+    //     defaultValue : 0
+    // }
 }
 
 Post.init(postSchema, {

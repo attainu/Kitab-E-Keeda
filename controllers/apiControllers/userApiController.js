@@ -1,5 +1,6 @@
 const User = require('../../models/users');
 const Profile = require('../../models/profile')
+const Follower = require('../../models/followingUser')
 const { sign } = require('jsonwebtoken');
 const uuid = require('uuid/v4')
 const { PrivateKey, mailPassword }= process.env 
@@ -120,49 +121,15 @@ module.exports = {
 
     async followUser(req, res){
         try{
-
-            const { follower } = req.params
-            const {genres} = req.body
-           await User.findOne({where:{_id:follower}}).then((user) => {
-               console.log(user)
-               user.genres.push(genres)
-               user.update({
-                   genres: genres
-                 },{
-                   where: {
-                     _id: follower
-                   }
-           }).then(user => res.json(user))
-
-
-           })
-
-
-
-
-
-
-
-
-
-            // const { follower, following } = req.params
-            // await User.update( { followingUser : following },{where:{_id:follower}}).then(() => {
-            //     res.status(200).send("updated successfully " );
-            //     if(err) res.send(err)
-            //     });
-            // // User.update({ _id : following }, { $inc : { followerCount : 1}}).exec((err, _)=>{
-            // //     if(err) res.send(err)
-            // // })
-            // res.send("you have followed")
-     
-            // const foundUser = await User.findOne({ where: { _id : follower }})
-            // var genre = foundUser.genres
-            // genre.push("Mathematics")
-
-            // var follow = foundUser.followingUser
-            // follow.push(following)
-            // foundUser.save()
-            // console.log(foundUser)
+            const { follower, following } = req.params
+            const newFollower = await Follower.create({
+                followerUser : follower,
+                followingUser : following
+            })
+            res.json({
+                msg: "you have followed the user",
+                newFollower
+            })
         }catch(err){
             console.log(err)
         }

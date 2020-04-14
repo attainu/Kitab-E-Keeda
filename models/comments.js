@@ -1,7 +1,4 @@
 const { Sequelize, Model } = require("sequelize");
-const Post = require('./posts')
-const Thread = require('./threads')
-const User = require('./users')
 const sequelize = require('../db');
 class Comment extends Model {
 
@@ -36,11 +33,6 @@ const commentSchema = {
             key: '_id'
         }
     },
-    // threadId : {
-    //     type : Sequelize.ARRAY(Sequelize.UUID),
-    //     allowNull: true,
-     
-    // }
 }
 
 Comment.init(commentSchema, {
