@@ -1,52 +1,66 @@
 const Books = require('../../models/books')
 const User = require('../../models/Users')
+const Genres = require('../../models/genres')
 
 module.exports = {
     async getAllBooks(req, res) {
-        let page = req.query.page
-        Books.find({}, {
-            _id: 1,
-            "volumeInfo.title": 1,
-            "volumeInfo.authors": 1,
-            "volumeInfo.categories": 1,
-            "volumeInfo.imageLinks.smallThumbnail": 1,
-            "volumeInfo.publishedDate": 1,
-            "saleInfo.listPrice.amount": 1
-        }).skip((page - 1) * 10).limit(10).exec((err, data) => {
-            if (err) {
-                console.log(err)
-            }
-            res.json(data)
-        })
+        try{
+            const foundBooks = await Books.findAll({where : {}})
+            res.send(foundBooks)
+        }catch(err){
+            console.log(err)
+        }
+
+        // let page = req.query.page
+        // Books.find({}, {
+        //     _id: 1,
+        //     "volumeInfo.title": 1,
+        //     "volumeInfo.authors": 1,
+        //     "volumeInfo.categories": 1,
+        //     "volumeInfo.imageLinks.smallThumbnail": 1,
+        //     "volumeInfo.publishedDate": 1,
+        //     "saleInfo.listPrice.amount": 1
+        // }).skip((page - 1) * 10).limit(10).exec((err, data) => {
+        //     if (err) {
+        //         console.log(err)
+        //     }
+        //     res.json(data)
+        // })
+        
     },
 
     async sortByGenres(req, res) { 
-        var myGenre = []
-        const { userId } = req.params;
-        User.find({ _id: userId}).exec((err, data) => {
-            if (err) console.log(err)
-            console.log(data)
-            data[0].genres.forEach(el => {
-                myGenre.push(el)
-                console.log(el)
-            })
-        })
-            setTimeout(() => {
-                var favGenreData = []
-                myGenre.forEach(ele => {
-                    Books.find({ "volumeInfo.categories": ele }, {
-                        _id: 1,
-                        "volumeInfo.title": 1,
-                        "volumeInfo.categories": 1,
-                        "volumeInfo.imageLinks.smallThumbnail": 1,
-                        "volumeInfo.publishedDate": 1,
-                        "saleInfo.listPrice.amount": 1
-                    }).then(doc => favGenreData.push(doc)).catch(err => console.log(err))
-                })
-                setTimeout(() => {
-                    res.send(favGenreData)
-                }, 2000)
-            }, 3000);
+       try{
+            Genres.findAll({ where : {}})
+       }catch(err){
+           console.log(err)
+       }
+        // var myGenre = []
+        // const { userId } = req.params;
+        // User.find({ _id: userId}).exec((err, data) => {
+        //     if (err) console.log(err)
+        //     console.log(data)
+        //     data[0].genres.forEach(el => {
+        //         myGenre.push(el)
+        //         console.log(el)
+        //     })
+        // })
+        //     setTimeout(() => {
+        //         var favGenreData = []
+        //         myGenre.forEach(ele => {
+        //             Books.find({ "volumeInfo.categories": ele }, {
+        //                 _id: 1,
+        //                 "volumeInfo.title": 1,
+        //                 "volumeInfo.categories": 1,
+        //                 "volumeInfo.imageLinks.smallThumbnail": 1,
+        //                 "volumeInfo.publishedDate": 1,
+        //                 "saleInfo.listPrice.amount": 1
+        //             }).then(doc => favGenreData.push(doc)).catch(err => console.log(err))
+        //         })
+        //         setTimeout(() => {
+        //             res.send(favGenreData)
+        //         }, 2000)
+        //     }, 3000);
     },
 
     async sortByAuthors(req, res) { 

@@ -2,7 +2,6 @@ const Post = require('../../models/posts')
 const Comment = require('../../models/comments')
 const Like = require('../../models/likes')
 const Thread = require('../../models/threads')
-const Follower = require('../../models/followingUser')
 
 module.exports = {
     async createPosts(req, res){
@@ -104,20 +103,6 @@ module.exports = {
             const { userId, postId } = req.params
             const { like } = req.headers
             const newLike = await Like.create({ userId, postId, like })
-            // to add likes count in posts
-            // if(newLike.like === true ){
-            //     newLike.dislike = false
-            //     Post.update( {$inc : { likesCount : 1 }},{where:{ _id : postId }}).exec((err, resp) => {
-            //         if(err) console.log(err)
-            //         console.log(resp)
-            //     })            
-            // }else{
-            //     Post.update( {$inc : { disLikesCount : 1 }},{where:{ _id : postId }}).exec((err, resp) => {
-            //         newLike.dislike = true
-            //         if(err) console.log(err)
-            //         console.log(resp)
-            //     }) 
-            // }
             res.send(newLike)
         }catch(err){
             console.log(err)
@@ -161,25 +146,11 @@ module.exports = {
         }
     },
 
-    async getPosts(req, res){
-        try { 
-            const { userId } = req.params
-            let users = []
-            let posts = []
-            const foundUser = await Follower.findAll({ where: { followerUser : userId }})
-            if(!foundUser) return res.send("you haven't followed annyone to see the posts")
-            users.push(foundUser.followingUser)
-            setTimeout(()=>{
-                users.forEach(el => {
-                    Post.findOne({ where:{ user : el }}).exec((err, resp) =>{
-                        if(err) return res.send(err)
-                        posts.push(resp)
-                    })
-                })   
-                setTimeout(()=>{
-                    res,json(posts)
-                }, 2000)         
-            }, 3000)
+    async getPosts(_, res){
+        try {
+            const foundPosts = Post.findAll({where : {}})
+            if(!foundPosts) return res.send("no posts found")
+            res.send(foundPosts)
         } catch (err) {
             console.log(err)
         }
