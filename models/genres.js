@@ -9,10 +9,10 @@ const genreSchema = {
         allowNull : false
     },
     genre : {
-        type : Sequelize.STRING,
+        type : Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false
     },
-    user : {
+    userId : {
         type: Sequelize.UUID,
         foreignKey: true,
         allowNull: false,

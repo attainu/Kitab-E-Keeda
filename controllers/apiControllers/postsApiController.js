@@ -103,7 +103,7 @@ module.exports = {
         try{
             const { userId, postId } = req.params
             const { like } = req.headers
-            const newLike =  Like.create({ userId, postId, like })
+            const newLike = await Like.create({ userId, postId, like })
             // to add likes count in posts
             // if(newLike.like === true ){
             //     newLike.dislike = false

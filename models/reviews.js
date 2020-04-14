@@ -1,6 +1,4 @@
 const sequelize = require('../db');
-const User = require('./users')
-const Books = require('./books')
 const { Sequelize, Model } = require("sequelize");
 class Review extends Model {
 

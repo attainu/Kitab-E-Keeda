@@ -1,6 +1,7 @@
 const Books = require('../../models/books')
 const User = require('../../models/users') 
 const Review = require('../../models/reviews')
+const Genre = require('../../models/genres')
 
 module.exports = {
     async postGenre(req, res) {
@@ -9,25 +10,33 @@ module.exports = {
             let genres = [ genre1, genre2, genre3, genre4, genre5 ]
             const userId = req.params.userId
             var favGenreData = []
-    
-            genres.forEach(el => {
+            genres.forEach(genre => {
                 if (el !== undefined) {
-                    //finding the user and updating it's genres property
-                    User.findByIdAndUpdate(userId, { $push : {genres : el} }, (err, resp) => {
-                        if (err) console.log(err.message)
-                        console.log(resp)
-                    })
-                    //finding the user choosen data in books db and saving it in user db.
-                    Books.find({ "volumeInfo.categories": el }, (err, resp)=>{
+                    Books.findAll({ where: { genre }}).exec((err, resp)=>{
                         if(err) console.log(err)
-                        else if (!resp) console.log("not found")
-                        favGenreData.push(resp)
+                        
                     })
+                    Genre.create({ genre, userId }).exec((err, resp)=>{
+                        if(err) console.log(err.message)
+                        console.log(resp)
+                        res.send("genres added successfully")
+                    })
+            //         finding the user and updating it's genres property
+            //         User.findByIdAndUpdate(userId, { $push : {genres : el} }, (err, resp) => {
+            //             if (err) console.log(err.message)
+            //             console.log(resp)
+            //         })
+            //         //finding the user choosen data in books db and saving it in user db.
+            //         Books.find({ "volumeInfo.categories": el }, (err, resp)=>{
+            //             if(err) console.log(err)
+            //             else if (!resp) console.log("not found")
+            //             favGenreData.push(resp)
+            //         })
                 }
             })
-            setTimeout(() => {
-                res.send(favGenreData)
-            }, 5000);        
+            // setTimeout(() => {
+            //     res.send(favGenreData)
+            // }, 5000);        
         }catch(err){ console.log(err) }
     },
 

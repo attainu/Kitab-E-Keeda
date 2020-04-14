@@ -17,12 +17,6 @@ const booksSchema = {
     description : { type: Sequelize.STRING },
     pageCount : { type : Sequelize.INTEGER },
     categories : { type :Sequelize.ARRAY(Sequelize.STRING)},
-    // reviews : { 
-    //     type : Sequelize.ARRAY(Sequelize.UUID),
-        
-    //     allowNull: true,
-        
-    // },
     ratingCount : {
         type : Sequelize.INTEGER,
         defaultValue : 0,
