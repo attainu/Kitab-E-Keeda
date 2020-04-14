@@ -123,9 +123,12 @@ module.exports = {
             const { follower, following } = req.params
             const foundUser = await User.findOne({ where:{ _id : follower }})
             if(!foundUser) return res.send("invalid credentials")
-            else{
+          else {
                 let followingUser = foundUser.followingUser
-                followingUser.push(following)            
+                if(foundUser.followingUser==null){
+                    followingUser.push(following) 
+                }
+                           
                 // console.log(doc)
             }
                  
@@ -159,7 +162,7 @@ module.exports = {
             else if(Code == otp.userOtp ) {
                 const foundUser = await User.update( { verified : true }, {where:{ _id : userId }})
                 if(!foundUser) return res.status(400).send("invalid credentials")
-                res.status(200).json({ msg : "code verified" })
+                res.status(200).json({ msg : "code verified" })  
             }else return res.send("code didnt match")
         }catch(err){
             console.log(err)
