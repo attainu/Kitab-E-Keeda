@@ -55,34 +55,34 @@ const userSchema = {
         type : Sequelize.STRING,
         allowNull: true
     },
-    genres: {
-        type : Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: true,
-        defaultValue: []
+    // genres: {
+    //     type : Sequelize.ARRAY(Sequelize.STRING),
+    //     allowNull: true,
+    //     defaultValue: []
         
         
-    },
-    favAuthors : {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: true,
+    // },
+    // favAuthors : {
+    //     type: Sequelize.ARRAY(Sequelize.STRING),
+    //     allowNull: true,
         
-    },
-    booksRead:{
-        type : Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: true
+    // },
+    // booksRead:{
+    //     type : Sequelize.ARRAY(Sequelize.STRING),
+    //     allowNull: true
 
-    },
-    posts: {
-        type: Sequelize.ARRAY(Sequelize.UUID),
-        allowNull: true,
+    // },
+    // posts: {
+    //     type: Sequelize.ARRAY(Sequelize.UUID),
+    //     allowNull: true,
        
-      },
+    //   },
 
-    followingUser:{
-        type: Sequelize.ARRAY(Sequelize.UUID),
-        allowNull: true ,
+    // followingUser:{
+    //     type: Sequelize.ARRAY(Sequelize.UUID),
+    //     allowNull: true ,
         
-    },
+    // },
     follwerCount:{
         type: Sequelize.INTEGER,
         defaultValue:0,

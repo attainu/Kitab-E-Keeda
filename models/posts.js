@@ -30,18 +30,16 @@ const postSchema =  {
             key: '_id'
         },
     },
-    comments : {
-        type: Sequelize.ARRAY(Sequelize.UUID),
+    // comments : {
+    //     type: Sequelize.ARRAY(Sequelize.UUID),
        
-        allowNull: true,
-    }
-    ,
-    likes : {
-        type:  Sequelize.ARRAY(Sequelize.UUID),
-      
-        allowNull: false,
-      
-    },
+    //     allowNull: true,
+    // }
+    // ,
+    // likes : {
+    //     type:  Sequelize.ARRAY(Sequelize.UUID),
+    //     allowNull: false,
+    // },
     likesCount : {
         type : Sequelize.INTEGER,
         defaultValue : 0

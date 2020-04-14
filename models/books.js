@@ -10,19 +10,19 @@ const booksSchema = {
         primaryKey: true,
         allowNull:false
     },
-    kind: { type: Sequelize.STRING  },
-    id : { type : Sequelize.STRING },
-    etag : { type : Sequelize.STRING },
-    selfLink : { type : Sequelize.STRING },
-    volumeInfo : { type: Sequelize.ARRAY(Sequelize.STRING)  },
-    saleInfo : { type :Sequelize.ARRAY(Sequelize.STRING) },
-    accessInfo : { type :Sequelize.ARRAY(Sequelize.STRING)},
-    reviews : { 
-        type : Sequelize.ARRAY(Sequelize.UUID),
+    title : { type: Sequelize.STRING  },
+    authors : { type : Sequelize.STRING },
+    publisher : { type : Sequelize.STRING },
+    publishdate : { type : Sequelize.STRING },
+    description : { type: Sequelize.STRING },
+    pageCount : { type : Sequelize.INTEGER },
+    categories : { type :Sequelize.ARRAY(Sequelize.STRING)},
+    // reviews : { 
+    //     type : Sequelize.ARRAY(Sequelize.UUID),
         
-        allowNull: true,
+    //     allowNull: true,
         
-    },
+    // },
     ratingCount : {
         type : Sequelize.INTEGER,
         defaultValue : 0,

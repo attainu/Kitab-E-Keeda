@@ -36,11 +36,11 @@ const commentSchema = {
             key: '_id'
         }
     },
-    threadId : {
-        type : Sequelize.ARRAY(Sequelize.UUID),
-        allowNull: true,
+    // threadId : {
+    //     type : Sequelize.ARRAY(Sequelize.UUID),
+    //     allowNull: true,
      
-    }
+    // }
 }
 
 Comment.init(commentSchema, {
