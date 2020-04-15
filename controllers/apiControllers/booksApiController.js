@@ -52,13 +52,15 @@ module.exports = {
             const userId = req.params.userId
             titles.forEach(title => {
                 if (title !== undefined) {
-                    Books.findAll({ where: { title }}).exec((err, _)=>{
-                        if(err) console.log(err)
-                        BooksRead.create({ title, user : userId }).exec((err, resp)=>{
-                            if(err) console.log(err.message)
-                            console.log(resp)
-                        })                    
-                    })
+                    Books.findAll({ where: { title }})
+                    .then(doc => console.log(doc))
+                    // .exec((err, _)=>{
+                    //     if(err) console.log(err)
+                    //     BooksRead.create({ title, user : userId }).exec((err, resp)=>{
+                    //         if(err) console.log(err.message)
+                    //         console.log(resp)
+                    //     })                    
+                    // })
                 }
             })
             res.send("booksRead added successfully")        
