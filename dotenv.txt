@@ -1,0 +1,24 @@
+postgres://swjnutjx:<password>@rogue.db.elephantsql.com:5432/swjnutjx
+WJT2XjYPG7QwFTDIeNtwqclmPqMBtuST
+
+
+MONGODB_PASSWORD=zXsSCBwNaHvwFO3i
+MONGODB_URI= mongodb+srv://manasranjan:<password>@cluster0-hwlgh.mongodb.net/kitab-e-keeda?retryWrites=true&w=majority
+privateKey = SECRET 
+ Book_Api_Key =   AIzaSyCYSgX7sYDVEGn3VaDg912QURvsewRp-G8
+CLOUDINARY_CLOUD_NAME =https-developerranjan-netlify-com
+CLOUDINARY_API_KEY =588943859278313
+CLOUDINARY_SECRET =XXN8d-onXQpCpZZ7cOTddJ_7T2Y
+RAZORPAY_KEY_ID = rzp_test_YxDOpPbwQXShhS
+RAZORPAY_KEY_SECET = wrj0779zmyv7iD0IFHURjeCE
+MESSEGE_BIRD_KEY =q3Hms0d9v9oxaZ0gXL5tuPskT
+POSTGRES_USERNAME = manas
+
+mailPassword = 12jk1a0348
+
+
+POSTGRES_PASSWORD = 	pwQBb_YVDQ0O1xOUcIcWBSFIQxwORstg
+POSTGRES_URI= postgres://kikcyfiq:<password>@kandula.db.elephantsql.com:5432/kikcyfiq
+		
+
+
