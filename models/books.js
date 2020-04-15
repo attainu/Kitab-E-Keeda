@@ -11,12 +11,12 @@ const booksSchema = {
         allowNull:false
     },
     title : { type: Sequelize.STRING  },
-    authors : { type : Sequelize.ARRAY(Sequelize.STRING) },
+    authors : { type : Sequelize.STRING },
     publisher : { type : Sequelize.STRING },
     publishdate : { type : Sequelize.STRING },
     description : { type: Sequelize.TEXT },
     pageCount : { type : Sequelize.INTEGER },
-    categories : { type :Sequelize.ARRAY(Sequelize.STRING)},
+    categories : { type :Sequelize.STRING},
    
     ratingAvg : {
         type : Sequelize.INTEGER,
