@@ -12,21 +12,6 @@ module.exports = {
         }catch(err){
             console.log(err)
         }
-        // let page = req.query.page
-        // Books.find({}, {
-        //     _id: 1,
-        //     "volumeInfo.title": 1,
-        //     "volumeInfo.authors": 1,
-        //     "volumeInfo.categories": 1,
-        //     "volumeInfo.imageLinks.smallThumbnail": 1,
-        //     "volumeInfo.publishedDate": 1,
-        //     "saleInfo.listPrice.amount": 1
-        // }).skip((page - 1) * 10).limit(10).exec((err, data) => {
-        //     if (err) {
-        //         console.log(err)
-        //     }
-        //     res.json(data)
-        // })
     },
 
     sortByGenres : (req, res) => { 
@@ -43,10 +28,11 @@ module.exports = {
                 res.status(400).send("server error")
             })
         setTimeout(()=>{
-            genres.forEach(genre => {
-                Books.findAll({where : { categories : genre }})
-                    .then(foundBook => bookList.push(foundBook))
-                    .catch( err => console.log(err))
+            genres[0].forEach(genre => {
+                Books.findAll({where : { categories : genre.dataValues.genre }})
+                .then(foundBook => {
+                    if( foundBook.length !== 0 ) bookList.push(foundBook)
+                }).catch( err => console.log(err))            
             })
             setTimeout(()=>{
                 res.send(bookList)
@@ -68,10 +54,11 @@ module.exports = {
                 res.status(400).send("server error")
             })
         setTimeout(()=>{
-            authors.forEach(author => {
-               Books.findAll({where : { authors : author }})
-               .then(foundAuthor => bookList.push(foundAuthor))
-               .catch( err => console.log(err))
+            authors[0].forEach(author => {
+            Books.findAll({where : { authors : author.dataValues.author }})
+               .then(foundAuthor => {
+                    if( foundAuthor.length !== 0 ) bookList.push(foundAuthor)
+                }).catch( err => console.log(err))
             })
             setTimeout(()=>{
                 res.send(bookList)
@@ -79,33 +66,30 @@ module.exports = {
         }, 3000)    
     },
 
-    async sortByBooksRead(req, res) {
-        try{
-            const { userI } = req.params
-             let booksRead =[]
-             let bookList = []
-             BooksRead.findAll({ where : {user:userId}})
-                .then(foundBooks => {
-                    if(!foundBooks) res.send("no books added")
-                    booksRead.push(foundBooks)
-                })
-                .catch(err => {
-                    console.log(err.message)
-                    res.status(400).send("server error")
-                })
-             setTimeout(()=>{
-                booksRead.forEach(book => {
-                    Books.findAll({where : { title : book }})
-                       .then(foundBook => bookList.push(foundBook))
-                       .catch( err => console.log(err))
-                 })
-                 setTimeout(()=>{
-                     res.send(bookList)
-                 }, 2000)            
-             }, 3000)
-        }catch(err){
-            console.log(err)
-        }
+    sortByBooksRead: (req, res) => {
+        const { userId } = req.params
+        let booksRead =[]
+        let bookList = []
+        BooksRead.findAll({ where : {user:userId}})
+           .then(foundBooks => {
+               if(!foundBooks) res.send("no books added")
+               booksRead.push(foundBooks)
+           })
+           .catch(err => {
+               console.log(err.message)
+               res.status(400).send("server error")
+           })
+        setTimeout(()=>{
+           booksRead[0].forEach(book => {
+            Books.findAll({where : { title : book.dataValues.title }})
+                .then(foundBook => {
+                    if(foundBook.length !== 0 ) bookList.push(foundBook)
+                }).catch( err => console.log(err))      
+            })
+            setTimeout(()=>{
+                res.send(bookList)
+            }, 2000)            
+        }, 3000)    
     },
 
     async getSearchedBook(req, res){
@@ -118,5 +102,4 @@ module.exports = {
             console.log(err)
         }
     }
-
 }

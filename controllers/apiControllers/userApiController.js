@@ -18,6 +18,7 @@ module.exports = {
             userOtp = userOtp.slice(0, 5);
             otp.userOtp = userOtp
 
+            console.log(otp)
             // create reusable transporter object using the default SMTP transport
             let transporter = nodemailer.createTransport({
                 service: 'gmail',
