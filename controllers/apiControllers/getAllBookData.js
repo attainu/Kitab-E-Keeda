@@ -1,5 +1,5 @@
 const Books = require('../../models/books')
-const User = require('../../models/users')
+const User = require('../../models/Users')
 
 module.exports = {
     async getAllBooks(req, res) {

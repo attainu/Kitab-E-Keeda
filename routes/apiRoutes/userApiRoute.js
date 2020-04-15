@@ -10,7 +10,7 @@ router.post('/signUp', registerUser)
 router.post('/signIn',loggedUser , loginUser)
 router.delete('/signOff/:userId',authenticate ,logoutUser)
 router.post('/addProfile/:userId',authenticate,updateProfile, upload.single("uploadImage"), addProfile)
-router.post('/follow/:follower/',followedUser, followUser)
+router.post('/follow/:follower/:following',followedUser, followUser)
 router.post('/verify/:userId', verifyUser)
 router.post('/searchUser/:userId', searchUser)
 

@@ -162,7 +162,7 @@ module.exports = {
     },
 
     async getPosts(req, res){
-        try {
+        try { 
             const { userId } = req.params
             let users = []
             let posts = []

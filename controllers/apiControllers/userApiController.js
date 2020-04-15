@@ -1,4 +1,4 @@
-const User = require('../../models/users');
+const User = require('../../models/Users');
 const Profile = require('../../models/profile')
 const Follower = require('../../models/followingUser')
 const { sign } = require('jsonwebtoken');

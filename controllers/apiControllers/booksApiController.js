@@ -1,5 +1,5 @@
 const Books = require('../../models/books')
-const User = require('../../models/users') 
+const User = require('../../models/Users') 
 const Review = require('../../models/reviews')
 const Genre = require('../../models/genres')
 
