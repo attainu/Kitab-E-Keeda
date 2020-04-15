@@ -5,66 +5,55 @@ const FavAuthor = require('../../models/favAuthros')
 const BooksRead = require('../../models/booksRead')
 
 module.exports = {
-    async postGenre(req, res) {
-        try{
-            let { genre1, genre2, genre3, genre4, genre5 } = req.headers
-            let genres = [ genre1, genre2, genre3, genre4, genre5 ]
-            const userId = req.params.userId
-            genres.forEach(genre => {
-                if (genre !== undefined) {
-                    Books.findAll({ where: { categories : genre }}).exec((err, _)=>{
-                        if(err) console.log(err)
-                        Genre.create({ genre, userId }).exec((err, resp)=>{
-                            if(err) console.log(err.message)
-                            console.log(resp)
-                        })                    
-                    })
-                }
-            })  
-            res.send("genres added successfully")     
-        }catch(err){ console.log(err) }
+     postGenre : (req, res) => {
+        let { genre1, genre2, genre3, genre4, genre5 } = req.headers
+        let genres = [ genre1, genre2, genre3, genre4, genre5 ]
+        const userId = req.params.userId
+        genres.forEach(genre => {
+            if (genre !== undefined) {
+                Books.findAll({ where: { categories : genre }})
+                .then(_ => {
+                    return Genre.create({ genre, userId })
+                })
+                .then( doc => console.log(doc))
+                .catch( err => console.log(err))
+            }
+        })  
+        res.send("genres added successfully")    
     },
 
-    async postFavAuthor(req, res) { 
-        try{
-            let { author1, author2, author3, author4, author5 } = req.headers
-            let authors = [author1, author2, author3, author4, author5]
-            const userId = req.params.userId
-            authors.forEach(author => {
-                if (author !== undefined) {
-                    Books.findAll({ where: { authors : author }}).exec((err, _)=>{
-                        if(err) console.log(err)
-                        FavAuthor.create({ author, user: userId }).exec((err, resp)=>{
-                            if(err) console.log(err.message)
-                            console.log(resp)
-                        })                    
-                    })
-                }
-            })
-            res.send("authors added successfully")
-        }catch(err){ console.log(err) }
+    postFavAuthor : (req, res) => { 
+        let { author1, author2, author3, author4, author5 } = req.headers
+        let authors = [author1, author2, author3, author4, author5]
+        const userId = req.params.userId
+        authors.forEach(author => {
+            if (author !== undefined) {
+                Books.findAll({ where: { authors : author }})
+                .then( _ => {
+                    return FavAuthor.create({ author, user: userId })
+                })
+                .then(doc => console.log(doc))
+                .catch(err => console.log(err))
+            }
+        })
+        res.send("authors added successfully")    
     },
 
-    async postBooksRead(req, res) {
-        try{
-            let { title1, title2, title3, title4, title5 } = req.headers
-            let titles = [title1, title2, title3, title4, title5]
-            const userId = req.params.userId
-            titles.forEach(title => {
-                if (title !== undefined) {
-                    Books.findAll({ where: { title }})
-                    .then(doc => console.log(doc))
-                    // .exec((err, _)=>{
-                    //     if(err) console.log(err)
-                    //     BooksRead.create({ title, user : userId }).exec((err, resp)=>{
-                    //         if(err) console.log(err.message)
-                    //         console.log(resp)
-                    //     })                    
-                    // })
-                }
-            })
-            res.send("booksRead added successfully")        
-        }catch(err){ console.log(err) }
+    postBooksRead: (req, res) => {
+        let { title1, title2, title3, title4, title5 } = req.headers
+        let titles = [title1, title2, title3, title4, title5]
+        const userId = req.params.userId
+        titles.forEach(title => {
+            if (title !== undefined) {
+                Books.findAll({ where: { title }})
+                .then(_ => {
+                    return BooksRead.create({ title, user : userId })
+                })
+                .then( doc => console.log(doc))
+                .catch(err => console.log(err.message))
+            }
+        })
+        res.send("booksRead added successfully")    
     },
 
     async addReviews(req, res){

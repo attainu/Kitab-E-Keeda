@@ -12,7 +12,6 @@ module.exports = {
         }catch(err){
             console.log(err)
         }
-
         // let page = req.query.page
         // Books.find({}, {
         //     _id: 1,
@@ -28,53 +27,56 @@ module.exports = {
         //     }
         //     res.json(data)
         // })
-        
     },
 
-    async sortByGenres(req, res) { 
-       try{
-           const { userId } = req.params
-            let genres =[]
-            let bookList = []
-            const foundGenres = await Genres.findAll({ where : {userId}})
-            genres.push(foundGenres)
+    sortByGenres : (req, res) => { 
+        const { userId } = req.params
+        let genres =[]
+        let bookList = []
+        Genres.findAll({ where : {userId}})
+            .then(foundGenres => {
+                if(!foundGenres) res.send("no genres added")
+                genres.push(foundGenres)
+            })
+            .catch(err => {
+                console.log(err.message)
+                res.status(400).send("server error")
+            })
+        setTimeout(()=>{
+            genres.forEach(genre => {
+                Books.findAll({where : { categories : genre }})
+                    .then(foundBook => bookList.push(foundBook))
+                    .catch( err => console.log(err))
+            })
             setTimeout(()=>{
-                genres.forEach(genre => {
-                    Books.findAll({where : { categories : genre }}).exec((err, foundBook)=>{
-                        if(err) console.log(err)
-                        bookList.push(foundBook)
-                    })
-                })
-                setTimeout(()=>{
-                    res.send(bookList)
-                }, 2000)            
-            }, 3000)
-       }catch(err){
-           console.log(err)
-       }
+                res.send(bookList)
+            }, 2000)            
+        }, 3000)    
     },
 
-    async sortByAuthors(req, res) { 
-        try{
-            const { userId } = req.params
-             let authors =[]
-             let bookList = []
-             const foundAuthors = await FavAuthors.findAll({ where : {userId}})
-             genres.push(foundAuthors)
-             setTimeout(()=>{
-                 authors.forEach(author => {
-                    Books.findAll({where : { authors : author }}).exec((err, foundBook)=>{
-                        if(err) console.log(err)
-                        bookList.push(foundBook)
-                    })
-                 })
-                 setTimeout(()=>{
-                     res.send(bookList)
-                 }, 2000)            
-             }, 3000)
-        }catch(err){
-            console.log(err)
-        }
+    sortByAuthors: (req, res) => { 
+        const { userId } = req.params
+        let authors =[]
+        let bookList = []
+        FavAuthors.findAll({ where : {userId}})
+            .then(foundAuthors => {
+                if(!foundAuthors) res.send("no authors added")
+                authors.push(foundAuthors)
+            })
+            .catch(err => {
+                console.log(err.message)
+                res.status(400).send("server error")
+            })
+        setTimeout(()=>{
+            authors.forEach(author => {
+               Books.findAll({where : { authors : author }})
+               .then(foundAuthor => bookList.push(foundAuthor))
+               .catch( err => console.log(err))
+            })
+            setTimeout(()=>{
+                res.send(bookList)
+            }, 2000)            
+        }, 3000)    
     },
 
     async sortByBooksRead(req, res) {
@@ -82,14 +84,20 @@ module.exports = {
             const { userId } = req.params
              let booksRead =[]
              let bookList = []
-             const foundBooksRead = await BooksRead.findAll({ where : {userId}})
-             booksRead.push(foundBooksRead)
+             BooksRead.findAll({ where : {userId}})
+                .then(foundBooks => {
+                    if(!foundBooks) res.send("no books added")
+                    booksRead.push(foundBooks)
+                })
+                .catch(err => {
+                    console.log(err.message)
+                    res.status(400).send("server error")
+                })
              setTimeout(()=>{
                 booksRead.forEach(book => {
-                    Books.findAll({where : { title : book }}).exec((err, foundBook)=>{
-                        if(err) console.log(err)
-                        bookList.push(foundBook)
-                    })
+                    Books.findAll({where : { title : book }})
+                       .then(foundBook => bookList.push(foundBook))
+                       .catch( err => console.log(err))
                  })
                  setTimeout(()=>{
                      res.send(bookList)
