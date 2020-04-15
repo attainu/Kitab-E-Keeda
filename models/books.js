@@ -14,14 +14,10 @@ const booksSchema = {
     authors : { type : Sequelize.ARRAY(Sequelize.STRING) },
     publisher : { type : Sequelize.STRING },
     publishdate : { type : Sequelize.STRING },
-    description : { type: Sequelize.STRING },
+    description : { type: Sequelize.TEXT },
     pageCount : { type : Sequelize.INTEGER },
     categories : { type :Sequelize.ARRAY(Sequelize.STRING)},
-    ratingCount : {
-        type : Sequelize.INTEGER,
-        defaultValue : 0,
-        allowNull : true
-    },
+   
     ratingAvg : {
         type : Sequelize.INTEGER,
         allowNull : true
