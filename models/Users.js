@@ -11,7 +11,7 @@ class User extends Model {
             email
           }
         });
-        if (!user) throw new Error("Incorrect credentials");
+        if (!user) throw new Error("Incorrect credentials");  
         const isMatched = await compare(password, user.password);
         if (!isMatched) throw new Error("Incorrect credentials");
         return user;

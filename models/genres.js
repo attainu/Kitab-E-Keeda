@@ -4,7 +4,7 @@ class Genre extends Model {}
 const genreSchema = {
     _id : {
         type : Sequelize.UUID,
-        defaultValue : "Computers",
+        defaultValue: Sequelize.UUIDV4,
         primaryKey : true,
         allowNull : false
     },
