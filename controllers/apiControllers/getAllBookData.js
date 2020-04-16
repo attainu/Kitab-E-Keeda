@@ -58,7 +58,7 @@ module.exports = {
         const { userId } = req.params
         let authors =[]
         let bookList = []
-        FavAuthors.findAll({ where : {userId}})
+        FavAuthors.findAll({ where : {user:userId}})
             .then(foundAuthors => {
                 if(!foundAuthors) res.send("no authors added")
                 authors.push(foundAuthors)
@@ -81,10 +81,10 @@ module.exports = {
 
     async sortByBooksRead(req, res) {
         try{
-            const { userId } = req.params
+            const { userI } = req.params
              let booksRead =[]
              let bookList = []
-             BooksRead.findAll({ where : {userId}})
+             BooksRead.findAll({ where : {user:userId}})
                 .then(foundBooks => {
                     if(!foundBooks) res.send("no books added")
                     booksRead.push(foundBooks)
