@@ -14,10 +14,7 @@
 
      https://github.com/attainu/Kitab-E-Keeda/tree/feature-manasPostgres
 
-## MongoDb Atlas id and Password
 
-    id:- apallauri@gmail.com
-    password :- Qwerty@123456
 
 <!-- elephant sql id password will be given at the time of the evaluation -->
 
