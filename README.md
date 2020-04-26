@@ -1,22 +1,31 @@
 # Kitab-E-Keeda documentation
 
+
+
 ## link to the mongoose heroku deployed app
 
-    https://kitabekeeda.herokuapp.com
+   [Mongodb Deployed Link](https://kitabekeeda.herokuapp.com "mongodb deployed link")
+    
 
-
+---
 
 ## github repo link for the primary database 
 
-    https://github.com/attainu/Kitab-E-Keeda/tree/feature-Amit
-
+   [Here Is the Github Link]( https://github.com/attainu/Kitab-E-Keeda/tree/feature-Amit "Master Branch")
+***
 ## github repo link for the secondary database
+ [Here Is the Github Link](https://github.com/attainu/Kitab-E-Keeda/tree/feature-manasPostgres "Feature Manas Branch")
 
-     https://github.com/attainu/Kitab-E-Keeda/tree/feature-manasPostgres
+    
 
 
 
 <!-- elephant sql id password will be given at the time of the evaluation -->
+
+
+## E-R Diagram Representation
+***
+ ![Image](https://drive.google.com/file/d/1wzP_E0wkjTuPM1eosTSbZXxOb40HKy0J/view?usp=sharing "ERD" )
 
 ## USER ROUTES
 
